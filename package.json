@@ -1,0 +1,37 @@
+{
+  "name": "markdown-it-eleventy-img",
+  "description": "A [markdown-it](https://github.com/markdown-it/markdown-it) plugin that processes images through the [eleventy-img](https://github.com/11ty/eleventy-img) plugin. Can be used in any projects that uses markdown-it.",
+  "version": "0.1.0",
+  "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\""
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "@11ty/eleventy-img": "^2.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/solution-loisir/markdown-it-eleventy-img.git"
+  },
+  "keywords": [
+    "markdown",
+    "markdown-it",
+    "markdown-it-plugin",
+    "eleventy",
+    "eleventy-utility",
+    "eleventy-plugin"
+  ],
+  "author": {
+    "name": "Mathieu Huot",
+    "email": "mathieu.huot@gmail.com"
+  },
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/solution-loisir/markdown-it-eleventy-img/issues"
+  },
+  "homepage": "https://github.com/solution-loisir/markdown-it-eleventy-img#readme"
+}
