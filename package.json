@@ -9,7 +9,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\""
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@11ty/eleventy": "^1.0.1"
+  },
   "dependencies": {
     "@11ty/eleventy-img": "^2.0.1"
   },
