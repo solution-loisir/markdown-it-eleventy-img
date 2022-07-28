@@ -58,7 +58,17 @@ Override eleventy-img default and attributes to the image output by adding an op
 
 ### Using options object
 
-The options object may contain up to two property objects: `options` and `attributes`. `options` can be used to override eleventy-img specific options and `attributes` can be used to add attributes to the image output. The `alt`, the `src` and the optional `title` attributes are taken from the markdown token: `![alt](./source.ext "Title")`. Here's an exemple of using the options object:
+The options object may contain up to two property objects: `options` and `attributes`. `options` can be used to override eleventy-img specific options and `attributes` can be used to add attributes to the image output. 
+
+The `alt`, the `src` and the optional `title` attributes are taken from the markdown token: `![alt](./source.ext "Title")`. 
+
+It's important to note that setting `alt` or `title` properties in the `attributes` object will override these attributes on all markdown images which is likely not what you want.
+
+Setting the `src` however as no effect. 
+
+A warning will be logged in the console if any of these properties are set globaly.
+
+Here's an exemple of using the options object:
 
 ```js
 // Code above removed for clarity.
