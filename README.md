@@ -47,7 +47,7 @@ So using:
 ```md
 <!-- index.md -->
 
-![Image alt](/img/my-image.jpg "Title text!")
+![Image alt](./img/my-image.jpg "Title text!")
 ```
 Will be rendered as: 
 
@@ -58,7 +58,7 @@ Override eleventy-img default and attributes to the image output by adding an op
 
 ### Using options object
 
-The options object may contain up to two property objects: `options` and `attributes`. `options` can be used to override eleventy-img specific options and `attributes` can be used to add attributes to the image output. The `alt`, the `src` and the optional `title` attributes are taken from the markdown token: `![alt](/source.ext "Title")`. Here's an exemple of using the options object:
+The options object may contain up to two property objects: `options` and `attributes`. `options` can be used to override eleventy-img specific options and `attributes` can be used to add attributes to the image output. The `alt`, the `src` and the optional `title` attributes are taken from the markdown token: `![alt](./source.ext "Title")`. Here's an exemple of using the options object:
 
 ```js
 // Code above removed for clarity.
@@ -79,7 +79,7 @@ The options object may contain up to two property objects: `options` and `attrib
   }
 });
 ```
-With these options, the image `![Image alt](/img/my-image.jpg "Title text!")`, would be rendered:
+With these options, the image `![Image alt](./img/my-image.jpg "Title text!")`, would be rendered:
 
 ```html
 <p><picture><source type="image/avif" srcset="/images/wtdfPs-yjZ-300.avif 300w, /images/wtdfPs-yjZ-500.avif 500w, /images/wtdfPs-yjZ-800.avif 800w" sizes="100vw"><source type="image/webp" srcset="/images/wtdfPs-yjZ-300.webp 300w, /images/wtdfPs-yjZ-500.webp 500w, /images/wtdfPs-yjZ-800.webp 800w" sizes="100vw"><source type="image/jpeg" srcset="/images/wtdfPs-yjZ-300.jpeg 300w, /images/wtdfPs-yjZ-500.jpeg 500w, /images/wtdfPs-yjZ-800.jpeg 800w" sizes="100vw"><img alt="Image alt" title="Title text!" class="markdown-image" decoding="async" src="/images/wtdfPs-yjZ-300.jpeg" width="800" height="571"></picture></p>
@@ -87,6 +87,12 @@ With these options, the image `![Image alt](/img/my-image.jpg "Title text!")`, w
 
 ### Using lazy loading
 
+Control how images are loaded with the [loading attribute](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/loading). To do so, add a `%lazy%` flag at the begining of title like so: `![Image alt](./img/my-image.jpg "%lazy% Title text!")`. This will add a `loading="lazy"` to the output `img` markup. The `%lazy%` flag is case insensitive so `%LAZY%` or `%LaZy%` would also work. The title string containing the flag and the extracted title is trimmed so any spaces before or after the title or in between the flag and the title will be removed. That means `"  %lazy%  Title text "` will trigger the lazy attribute and return the title `"Title text"`. 
+
 ## Motivation
 
+Coming soon!
+
 ## Allignements
+
+Coming soon!
