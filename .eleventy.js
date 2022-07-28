@@ -21,8 +21,7 @@ module.exports = config => {
       decoding: "async",
       sizes: "100vw",
       alt: "Uniform alt",
-      title: "Uniform title",
-      src: "./assets/images/sejour-plein-air.jpg"
+      title: "Uniform title"
     }
   }));
 
