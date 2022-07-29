@@ -49,7 +49,7 @@ So using:
 
 ![Image alt](./img/my-image.jpg "Title text!")
 ```
-Will be rendered as: 
+Will be rendered by default using the [generateHTML](https://www.11ty.dev/docs/plugins/image/#use-this-in-your-templates) function from eleventy-img: 
 
 ```html
 <p><picture><source type="image/webp" srcset="/img/wtdfPs-yjZ-2048.webp 2048w"><img alt="Image alt" title="Title text!" src="/img/wtdfPs-yjZ-2048.jpeg" width="2048" height="1463"></picture></p>
@@ -62,11 +62,9 @@ The options object may contain up to two property objects: `options` and `attrib
 
 The `alt`, the `src` and the optional `title` attributes are taken from the markdown token: `![alt](./source.ext "Title")`. 
 
-It's important to note that setting `alt` or `title` properties in the `attributes` object will override these attributes on all markdown images which is likely not what you want.
+It's important to note that setting `alt`, `title`, `src` or `loading` properties in the `attributes` config object will have no effect on the markdown image output. These attributes have to be set on the markdown image token.
 
-Setting the `src` however as no effect. 
-
-A warning will be logged in the console if any of these properties are set globaly.
+A warning will be logged in the console if any of these properties are set in the `attributes` config object.
 
 Here's an exemple of using the options object:
 
