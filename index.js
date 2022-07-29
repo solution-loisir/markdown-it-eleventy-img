@@ -28,7 +28,7 @@ module.exports = function markdownItEleventyImg(md, {
       defaultAttributes.loading = "lazy";
     }
 
-    const imageAttributes = { ...defaultAttributes, ...attributes }
+    const imageAttributes = { ...attributes, ...defaultAttributes }
     
     Image(src, options);
 
