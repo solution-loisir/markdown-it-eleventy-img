@@ -7,7 +7,7 @@
     "access": "public"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\"",
+    "test": "echo \"No test specified\"",
     "start": "npx @11ty/eleventy --serve"
   },
   "devDependencies": {
