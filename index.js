@@ -15,11 +15,12 @@ module.exports = function markdownItEleventyImg(md, {
     const token = tokens[index];
 
     const src = token.attrGet("src");
+    const alt = token.content;
     const title = token.attrGet("title") || "";
     const { isLazy, titleText } = findLazyFlag(title);
 
     const defaultAttributes = {
-      alt: token.content
+      alt
     }
     if(titleText) {
       defaultAttributes.title = titleText;
