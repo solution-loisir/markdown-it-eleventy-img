@@ -1,7 +1,11 @@
-module.exports = optionsObject => {
-  if(optionsObject.alt) console.warn("WARNING: Setting `alt` in the attributes object will override the alt attribute on all markdown images.");
-
-  if(optionsObject.title) console.warn("WARNING: Setting `title` in the attributes object will override the title attribute on all markdown images.");
-
-  if(optionsObject.src) console.warn("WARNING: Setting `src` in the attributes object as no effect on markdown output images.");
+module.exports = (target) => {
+  Object.keys(target).forEach(property => {
+    switch(property) {
+      case "alt":
+      case "title":
+      case "src":
+      case "loading":
+        console.warn(`WARNING: Setting ${property} in configuration will have no effect on the markdown image output. The ${property} attribute has to be set on the markdown image token.`);
+    }
+  });
 }
