@@ -1,6 +1,6 @@
 const Image = require("@11ty/eleventy-img");
 const findLazyFlag = require("./utilities/find-lazy-flag");
-const logWarningForAttributes = require("./utilities/warnings");
+const logWarningFor = require("./utilities/warnings");
 
 
 module.exports = function markdownItEleventyImg(md, {
@@ -8,7 +8,7 @@ module.exports = function markdownItEleventyImg(md, {
   attributes = {}
 } = {}) {
 
-  logWarningForAttributes(attributes);
+  logWarningFor(attributes);
 
   md.renderer.rules.image  = (tokens, index, rendererOptions, env, renderer) => {
 
