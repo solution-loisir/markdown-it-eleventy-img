@@ -13,4 +13,4 @@ layout: base-layout.html
 
 ## sejour-plein-air.jpg
 
-![Alt sejour-plein-air](./assets/images/sejour-plein-air.jpg "Title sejour-plein-air")
+![Alt sejour-plein-air](./assets/images/sejour-plein-air.jpg "%lazy% Title sejour-plein-air")
