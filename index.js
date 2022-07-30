@@ -1,6 +1,7 @@
 const Image = require("@11ty/eleventy-img");
-const findLazyFlag = require("./utilities/find-lazy-flag");
 const logWarningFor = require("./utilities/warnings");
+const removeKeyFrom = require("./utilities/remove-key-from");
+const generateAttrsObject = require("./utilities/generate-attrs-object");
 
 
 module.exports = function markdownItEleventyImg(md, {
@@ -14,22 +15,15 @@ module.exports = function markdownItEleventyImg(md, {
 
     const token = tokens[index];
 
-    const src = token.attrGet("src");
-    const alt = token.content;
-    const title = token.attrGet("title") || "";
-    const { isLazy, titleText } = findLazyFlag(title);
+    const tokenAttributes = generateAttrsObject(token);
 
-    const defaultAttributes = {
-      alt
-    }
-    if(titleText) {
-      defaultAttributes.title = titleText;
-    }
-    if(isLazy) {
-      defaultAttributes.loading = "lazy";
-    }
+    const src = tokenAttributes.src;
 
-    const imageAttributes = { ...attributes, ...defaultAttributes }
+    const tokenAttributesNoSrc = removeKeyFrom("src", tokenAttributes);
+
+    const configAttributesNoTitle = removeKeyFrom("title", attributes);
+
+    const imageAttributes = { ...configAttributesNoTitle, ...tokenAttributesNoSrc }
     
     Image(src, options);
 
