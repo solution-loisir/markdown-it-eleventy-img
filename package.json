@@ -10,11 +10,17 @@
     "test": "echo \"No test specified\"",
     "start": "npx @11ty/eleventy --serve"
   },
+  "engines": {
+    "node": ">=12"
+  },
   "devDependencies": {
     "@11ty/eleventy": "^1.0.1"
   },
   "dependencies": {
     "@11ty/eleventy-img": "^2.0.1"
+  },
+  "peerDependencies": {
+    "markdown-it": ">= 9.0.0"
   },
   "repository": {
     "type": "git",
