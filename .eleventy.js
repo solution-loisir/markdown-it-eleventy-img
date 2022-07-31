@@ -10,13 +10,13 @@ module.exports = config => {
     linkify: true
   })
   .use(markdownItEleventyImg, {
-    options: {
+    imgOptions: {
       widths: [800, 500, 300],
       urlPath: "/images/",
       outputDir: path.join("_site", "images"),
       formats: ["avif", "webp", "jpeg"]
     },
-    attributes: {
+    globalAttributes: {
       class: "markdown-image",
       decoding: "async",
       sizes: "100vw",

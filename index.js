@@ -5,11 +5,11 @@ const generateAttrsObject = require("./utilities/generate-attrs-object");
 
 
 module.exports = function markdownItEleventyImg(md, {
-  options = {},
-  attributes = {}
+  imgOptions = {},
+  globalAttributes = {}
 } = {}) {
 
-  logWarningFor(attributes);
+  logWarningFor(globalAttributes);
 
   md.renderer.rules.image  = (tokens, index, rendererOptions, env, renderer) => {
 
@@ -21,13 +21,13 @@ module.exports = function markdownItEleventyImg(md, {
 
     const tokenAttributesNoSrc = removeKeyFrom("src", tokenAttributes);
 
-    const configAttributesNoTitle = removeKeyFrom("title", attributes);
+    const configAttributesNoTitle = removeKeyFrom("title", globalAttributes);
 
     const imageAttributes = { ...configAttributesNoTitle, ...tokenAttributesNoSrc }
     
-    Image(src, options);
+    Image(src, imgOptions);
 
-    const metadata = Image.statsSync(src, options);
+    const metadata = Image.statsSync(src, imgOptions);
     const imageMarkup = Image.generateHTML(metadata, imageAttributes, {
       whitespaceMode: "inline"
     });
