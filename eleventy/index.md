@@ -5,7 +5,7 @@ layout: base-layout.html
 
 ## diplomees2021.jpg
 
-![Alt diplomees2021](./assets/images/diplomees2021.jpg "Title diplomees2021")
+![Alt diplomees2021](./assets/images/diplomees2021.jpg "Title diplomees2021"){.test}
 
 ## groupe-diplome-sejour-folle.jpg
 
