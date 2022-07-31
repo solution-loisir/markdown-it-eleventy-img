@@ -6,7 +6,8 @@ const generateAttrsObject = require("./utilities/generate-attrs-object");
 
 module.exports = function markdownItEleventyImg(md, {
   imgOptions = {},
-  globalAttributes = {}
+  globalAttributes = {},
+  renderImage
 } = {}) {
 
   logWarningFor(globalAttributes);
@@ -16,6 +17,8 @@ module.exports = function markdownItEleventyImg(md, {
     const token = tokens[index];
 
     const tokenAttributes = generateAttrsObject(token);
+
+    if(renderImage) return renderImage(Image, tokenAttributes);
 
     const src = tokenAttributes.src;
 
