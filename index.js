@@ -11,7 +11,7 @@ module.exports = function markdownItEleventyImg(md, {
 
   logWarningFor(globalAttributes);
 
-  md.renderer.rules.image  = (tokens, index, rendererOptions, env, renderer) => {
+  md.renderer.rules.image  = (tokens, index, options, env, self) => {
 
     const token = tokens[index];
 
