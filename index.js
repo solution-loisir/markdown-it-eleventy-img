@@ -18,8 +18,6 @@ module.exports = function markdownItEleventyImg(md, {
 
     const tokenAttributes = generateAttrsObject(token);
 
-    if(renderImage) return renderImage(Image, tokenAttributes);
-
     const src = tokenAttributes.src;
 
     const tokenAttributesNoSrc = removeKeyFrom("src", tokenAttributes);
@@ -27,6 +25,12 @@ module.exports = function markdownItEleventyImg(md, {
     const configAttributesNoTitle = removeKeyFrom("title", globalAttributes);
 
     const imageAttributes = { ...configAttributesNoTitle, ...tokenAttributesNoSrc }
+
+    if(renderImage) {
+      const image = [ Image, imgOptions ];
+      const attributes = [ imageAttributes, src ];
+      return renderImage(image, attributes);
+    }
     
     Image(src, imgOptions);
 

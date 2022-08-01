@@ -26,8 +26,18 @@ module.exports = config => {
       alt: "Uniform alt",
       title: "Uniform title"
     },
-    renderImage(Image, attrs) {
-      return `<img src="${attrs.src}" alt="${attrs.alt}"${attrs.title ? ` title="${attrs.title}"` : ""}${attrs.loading ? ` loading="${attrs.loading}"` : ""}${attrs.class ? ` class="${attrs.class}"` : ""}>`;
+    renderImage(image, attributes) {
+      const [ Image, options ] = image;
+      const [ attrs, src ] = attributes;
+
+      Image(src, options);
+
+      const metadata = Image.statsSync(src, options);
+      const imageMarkup = Image.generateHTML(metadata, attrs, {
+        whitespaceMode: "inline"
+      });
+    
+      return `<figure>${imageMarkup}${attrs.title ? `<figcaption>${attrs.title}</figcaption>` : ""}</figure>`;
     }
   }));
 
