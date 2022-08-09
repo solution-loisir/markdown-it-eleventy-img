@@ -1,6 +1,6 @@
 const Image = require("@11ty/eleventy-img");
 const logWarningFor = require("./utilities/warnings");
-const removeKeyFrom = require("./utilities/remove-key-from");
+const { remove } = require("./utilities/remove-key-from");
 const generateAttrsObject = require("./utilities/generate-attrs-object");
 
 
@@ -20,9 +20,9 @@ module.exports = function markdownItEleventyImg(md, {
 
     const src = tokenAttributes.src;
 
-    const tokenAttributesWithoutSrc = removeKeyFrom("src", tokenAttributes);
+    const tokenAttributesWithoutSrc = remove("src").from(tokenAttributes);
 
-    const globalAttributesWithoutTitle = removeKeyFrom("title", globalAttributes);
+    const globalAttributesWithoutTitle = remove("title").from(globalAttributes);
 
     const imageAttributes = { ...globalAttributesWithoutTitle, ...tokenAttributesWithoutSrc }
 
