@@ -4,7 +4,6 @@ module.exports = (target) => {
       case "alt":
       case "title":
       case "src":
-      case "loading":
         console.warn(`WARNING: Setting ${property} in configuration will have no effect on the markdown image output. The ${property} attribute has to be set on the markdown image token.`);
     }
   });

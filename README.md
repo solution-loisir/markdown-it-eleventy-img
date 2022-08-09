@@ -66,9 +66,9 @@ Override eleventy-img default and attributes to the image output by adding an op
 
 The options object may contain up to three properties: `imgOptions`, `globalAttributes` and the `renderImage` method. Use `imgOptions` to override eleventy-img specific options. `globalAttributes` can be used to add attributes to the image output. The `renderImage` function will let you render custom markup and do almost everything you like with your markdown images (see [Custom image rendering](#custom-image-rendering)).
 
-The `alt`, the `src`, the optional `title` and `loading` (see [Using lazy loading](#using-lazy-loading)) attributes are taken from the markdown token: `![alt](./source.ext "Title")`. 
+The `alt`, the `src`, and the optional `title` attributes are taken from the markdown token: `![alt](./source.ext "Title")`. 
 
-Setting `alt`, `title`, `src` or `loading` properties in the `attributes` config object will have no effect on the markdown image output. These attributes have to be set on the markdown image token instead.
+Setting `alt`, `title` or `src` properties in the `attributes` config object will have no effect on the markdown image output. These attributes have to be set on the markdown image token instead.
 
 A warning will be logged in the console if any of these properties are set in the `globalAttributes` config object.
 
@@ -135,11 +135,7 @@ renderImage(image, attributes) {
 ```
 Note that you have to use eleventy-img [synchronous API](https://www.11ty.dev/docs/plugins/image/#synchronous-shortcode) inside `renderImage`. Unfortunately, markdown-it plugins doesn't support async code. It's good to know that even in the sync API, the images are generated asychronously. Got to 😍 11ty!
 
-## Using lazy loading
-
-Control how images are loaded with the [loading attribute](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/loading). To do so, add a `%lazy%` flag at the begining of title like so: `![Image alt](./img/my-image.jpg "%lazy% Title text!")`. This will add a `loading="lazy"` to the output `img` markup. The `%lazy%` flag is case insensitive so `%LAZY%` or `%LaZy%` would also work. The title string containing the flag and the extracted title is trimmed so any spaces before or after the title or in between the flag and the title will be removed. That means `"  %lazy%  Title text "` will trigger the lazy attribute and return the title `"Title text"`.
-
-### Use with markdown-it-attrs
+## Use with markdown-it-attrs
 
 Starting with `v0.3.0`, markdown-it-eleventy-img is fully compatible with [markdown-it-attrs](https://www.npmjs.com/package/markdown-it-attrs). Setting attributes with markdown-it-attrs will be passed to the image output. Same attributes will be overridden. 
 
