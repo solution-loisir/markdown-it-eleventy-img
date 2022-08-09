@@ -106,10 +106,10 @@ With these options, the image `![Image alt](./img/my-image.jpg "Title text!")`, 
 
 You may use the `renderImage` method (a callback function) to customize the output or to add logic in the process. This function is returned inside of the image renderer. Any string returned by `renderImage` will output the markup for every image token. 
 
-`renderImage` takes two parameters and each one are tuples. The first parameter as the `Image` class from the eleventy-img plugin and the `imgOptions` config object. The second parameter as the `globalAttributes` and all of the token attributes except for the `src` attribute and the `src` attribute in second position separately. We separate the `src` form the rest of the attributes to facilitate the use of the `Image` class. If you need to, it is simple to reunite.
+`renderImage` takes two parameters and each one are tuples. The first parameter as the `Image` class from the eleventy-img plugin and the `imgOptions` config object. The second parameter as the `src` attribute and the rest of the `globalAttributes` in second position. We separate the `src` form the rest of the attributes to facilitate the use of the `Image` class. If you need to, it is simple to reunite.
 
 ```js
-const [ attrs, src ] = attributes;
+const [ src, attrs ] = attributes;
 
 const allAttributes = { ...attrs, src }
 ```
@@ -121,7 +121,7 @@ Here's an exemple of adding a `<figure>` parent and an optional `<figcaption>` t
 
 renderImage(image, attributes) {
   const [ Image, options ] = image;
-  const [ attrs, src ] = attributes;
+  const [ src, attrs ] = attributes;
 
   Image(src, options);
 

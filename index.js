@@ -28,7 +28,7 @@ module.exports = function markdownItEleventyImg(md, {
 
     if(renderImage) {
       const image = [ Image, imgOptions ];
-      const attributes = [ imageAttributes, src ];
+      const attributes = [ src, imageAttributes ];
       return renderImage(image, attributes);
     }
     
