@@ -2,6 +2,7 @@ const Image = require("@11ty/eleventy-img");
 const logWarningFor = require("./utilities/warnings");
 const { remove } = require("./utilities/remove-key-from");
 const generateAttrsObject = require("./utilities/generate-attrs-object");
+const { typeObjectError, typeFunctionError } = require("./utilities/errors");
 
 
 module.exports = function markdownItEleventyImg(md, {
@@ -9,6 +10,9 @@ module.exports = function markdownItEleventyImg(md, {
   globalAttributes = {},
   renderImage
 } = {}) {
+  typeObjectError(imgOptions, "imgOptions");
+  typeObjectError(globalAttributes, "globalAttributes");
+  typeFunctionError(renderImage, "renderImage");
 
   logWarningFor(globalAttributes);
 
