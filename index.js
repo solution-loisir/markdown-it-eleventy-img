@@ -20,11 +20,11 @@ module.exports = function markdownItEleventyImg(md, {
 
     const src = tokenAttributes.src;
 
-    const tokenAttributesNoSrc = removeKeyFrom("src", tokenAttributes);
+    const tokenAttributesWithoutSrc = removeKeyFrom("src", tokenAttributes);
 
-    const configAttributesNoTitle = removeKeyFrom("title", globalAttributes);
+    const globalAttributesWithoutTitle = removeKeyFrom("title", globalAttributes);
 
-    const imageAttributes = { ...configAttributesNoTitle, ...tokenAttributesNoSrc }
+    const imageAttributes = { ...globalAttributesWithoutTitle, ...tokenAttributesWithoutSrc }
 
     if(renderImage) {
       const image = [ Image, imgOptions ];
