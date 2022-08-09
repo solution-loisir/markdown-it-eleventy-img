@@ -133,7 +133,7 @@ renderImage(image, attributes) {
   return `<figure>${imageMarkup}${attrs.title ? `<figcaption>${attrs.title}</figcaption>` : ""}</figure>`;
 }
 ```
-Note that you have to use eleventy-img [synchronous API](https://www.11ty.dev/docs/plugins/image/#synchronous-shortcode) inside `renderImage`. Unfortunately, markdown-it plugins doesn't support async code. It's good to know that even in the sync API, the images are generated asychronously. Got to 😍 11ty!
+> Note that you have to use eleventy-img [synchronous API](https://www.11ty.dev/docs/plugins/image/#synchronous-shortcode) inside `renderImage`. Unfortunately, markdown-it plugins doesn't support async code. It's good to know that even in the sync API, the images are generated asychronously. Got to 😍 11ty!
 
 ## Use with markdown-it-attrs
 
