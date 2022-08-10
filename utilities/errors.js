@@ -7,7 +7,10 @@ const typeObjectError = (parameterValue, parameterName = "") => {
 }
 
 const typeFunctionError = (parameterValue, parameterName = "") => {
-  if(typeof parameterValue !== "function") throw new Error(`Markdown-it-eleventy-img: \`${parameterName}\` needs to be a \`function\`.`);
+  if(
+    typeof parameterValue !== "function" &&
+    parameterValue !== undefined
+  ) throw new Error(`Markdown-it-eleventy-img: \`${parameterName}\` needs to be a \`function\`.`);
 }
 
 module.exports = {
