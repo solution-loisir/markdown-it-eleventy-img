@@ -2,11 +2,14 @@ const test = require("ava");
 const md = require("markdown-it")();
 const markdownItEleventyImg = require("./");
 const logWarningFor = require("./utilities/warnings");
+const generateAttrsObject = require("./utilities/generate-attrs-object");
+const { remove } = require("./utilities/remove-key-from");
 const fs = require("fs");
 const path = require("path");
 const Eleventy = require("@11ty/eleventy");
 const eleventyInput = "test-eleventy";
 const eleventyOutput = "_site";
+const imageDiplomees2021 = '![Alt diplomees2021](./assets/images/diplomees2021.jpg "Title diplomees2021")';
 
 test("Log warning for alt", t => {
   const globalAttributes = {
@@ -72,10 +75,87 @@ test("typeObjectError for imgOptions (undefined not throwing)", t => {
   });
 });
 
-test.skip("markdownItEleventyImg with markdown-it (default no-config)", t => {
-  const result = md.use(markdownItEleventyImg).render('![Alt diplomees2021](./assets/images/diplomees2021.jpg "Title diplomees2021")');
+test("generate-attrs-object", t => {
+  const tokens = md.parseInline(imageDiplomees2021);
+  
+  const tokenAttributes = generateAttrsObject(tokens[0].children[0]);
+
+  t.deepEqual(tokenAttributes, {
+    src: "./assets/images/diplomees2021.jpg",
+    alt: "Alt diplomees2021",
+    title: "Title diplomees2021"
+  });
+});
+
+test("remove-key-from", t => {
+  const tokenAttributes = {
+    src: "./assets/images/diplomees2021.jpg",
+    alt: "Alt diplomees2021",
+    title: "Title diplomees2021"
+  }
+
+  const tokenAttributesWithoutSrc = remove("src").from(tokenAttributes);
+
+  t.deepEqual(tokenAttributesWithoutSrc, {
+    alt: "Alt diplomees2021",
+    title: "Title diplomees2021"
+  });
+});
+
+test("markdownItEleventyImg with markdown-it (default no-config)", t => {
+  const result = md.use(markdownItEleventyImg).render(imageDiplomees2021);
 
   t.is(result, '<p><picture><source type="image/webp" srcset="/img/pRWAdktn3m-2048.webp 2048w"><img alt="Alt diplomees2021" title="Title diplomees2021" src="/img/pRWAdktn3m-2048.jpeg" width="2048" height="1463"></picture></p>\n');
+});
+
+test("markdownItEleventyImg with markdown-it with imgOptions and globalAttributes (dryrun)", t => {
+  const result = md.use(markdownItEleventyImg, {
+    imgOptions: {
+      widths: [800, 500, 300],
+      urlPath: "/images/",
+      outputDir: path.join("_site", "images"),
+      formats: ["avif", "webp", "jpeg"],
+      dryRun: true
+    },
+    globalAttributes: {
+      class: "markdown-image",
+      decoding: "async",
+      sizes: "100vw"
+    }
+  }).render(imageDiplomees2021);
+
+  t.is(result, '<p><picture><source type="image/avif" srcset="/images/pRWAdktn3m-300.avif 300w, /images/pRWAdktn3m-500.avif 500w, /images/pRWAdktn3m-800.avif 800w" sizes="100vw"><source type="image/webp" srcset="/images/pRWAdktn3m-300.webp 300w, /images/pRWAdktn3m-500.webp 500w, /images/pRWAdktn3m-800.webp 800w" sizes="100vw"><source type="image/jpeg" srcset="/images/pRWAdktn3m-300.jpeg 300w, /images/pRWAdktn3m-500.jpeg 500w, /images/pRWAdktn3m-800.jpeg 800w" sizes="100vw"><img class="markdown-image" decoding="async" alt="Alt diplomees2021" title="Title diplomees2021" src="/images/pRWAdktn3m-300.jpeg" width="800" height="571"></picture></p>\n');
+});
+
+test("markdownItEleventyImg with markdown-it with renderImage (dryrun)", t => {
+  const result = md.use(markdownItEleventyImg, {
+    imgOptions: {
+      dryRun: true
+    },
+    renderImage(image, attributes) {
+      const [ Image, options ] = image;
+      const [ src, attrs ] = attributes;
+
+      t.true(typeof Image === "function");
+      t.true(typeof options === "object" && options.dryRun);
+      t.true(typeof src === "string");
+      t.true(typeof attrs === "object" && !attrs.src);
+
+      Image(src, options);
+
+      const metadata = Image.statsSync(src, options);
+      
+      t.true(typeof metadata === "object");
+
+      const imageMarkup = Image.generateHTML(metadata, attrs, {
+        whitespaceMode: "inline"
+      });
+    
+      return `<figure>${imageMarkup}${attrs.title ? `<figcaption>${attrs.title}</figcaption>` : ""}</figure>`;
+    }
+  }).render(imageDiplomees2021);
+
+  t.is(result, '<p><figure><picture><source type="image/webp" srcset="/img/pRWAdktn3m-2048.webp 2048w"><img alt="Alt diplomees2021" title="Title diplomees2021" src="/img/pRWAdktn3m-2048.jpeg" width="2048" height="1463"></picture><figcaption>Title diplomees2021</figcaption></figure></p>\n');
 });
 
 test.serial("markdownItEleventyImg with Eleventy (default no-config)", async t => {
@@ -113,6 +193,42 @@ test.serial("markdownItEleventyImg with Eleventy with imgOptions and globalAttri
   t.is(json[0].content, '<p><picture><source type="image/avif" srcset="/images/pRWAdktn3m-300.avif 300w, /images/pRWAdktn3m-500.avif 500w, /images/pRWAdktn3m-800.avif 800w" sizes="100vw"><source type="image/webp" srcset="/images/pRWAdktn3m-300.webp 300w, /images/pRWAdktn3m-500.webp 500w, /images/pRWAdktn3m-800.webp 800w" sizes="100vw"><source type="image/jpeg" srcset="/images/pRWAdktn3m-300.jpeg 300w, /images/pRWAdktn3m-500.jpeg 500w, /images/pRWAdktn3m-800.jpeg 800w" sizes="100vw"><img class="markdown-image" decoding="async" alt="Alt diplomees2021" title="Title diplomees2021" src="/images/pRWAdktn3m-300.jpeg" width="800" height="571"></picture></p>\n');
 });
 
+test.serial("markdownItEleventyImg with Eleventy with renderImage (dryrun)", async t => {
+  let elev = new Eleventy(eleventyInput, eleventyOutput, {
+    config(config) {
+      config.setLibrary("md", md.use(markdownItEleventyImg, {
+        imgOptions: {
+          dryRun: true
+        },
+        renderImage(image, attributes) {
+          const [ Image, options ] = image;
+          const [ src, attrs ] = attributes;
+
+          t.true(typeof Image === "function");
+          t.true(typeof options === "object" && options.dryRun);
+          t.true(typeof src === "string");
+          t.true(typeof attrs === "object" && !attrs.src);
+    
+          Image(src, options);
+    
+          const metadata = Image.statsSync(src, options);
+          
+          t.true(typeof metadata === "object");
+
+          const imageMarkup = Image.generateHTML(metadata, attrs, {
+            whitespaceMode: "inline"
+          });
+        
+          return `<figure>${imageMarkup}${attrs.title ? `<figcaption>${attrs.title}</figcaption>` : ""}</figure>`;
+        }
+      }));
+    }
+  });
+  let json = await elev.toJSON();
+  
+  t.is(json[0].content, '<p><figure><picture><source type="image/webp" srcset="/img/pRWAdktn3m-2048.webp 2048w"><img alt="Alt diplomees2021" title="Title diplomees2021" src="/img/pRWAdktn3m-2048.jpeg" width="2048" height="1463"></picture><figcaption>Title diplomees2021</figcaption></figure></p>\n');
+});
+
 test.after("cleanup", t => {
   const imgDir = "img";
 
@@ -120,41 +236,3 @@ test.after("cleanup", t => {
     fs.rmSync(imgDir, { recursive: true });
   }
 });
-
-/**
- * config.setLibrary('md', markdownIt ({
-    html: true,
-    breaks: true,
-    linkify: true
-  })
-  .use(markdownItAttrs)
-  .use(markdownItEleventyImg, {
-    imgOptions: {
-      widths: [800, 500, 300],
-      urlPath: "/images/",
-      outputDir: path.join("_site", "images"),
-      formats: ["avif", "webp", "jpeg"],
-      dryRun: true
-    },
-    globalAttributes: {
-      class: "markdown-image",
-      decoding: "async",
-      sizes: "100vw",
-      alt: "Uniform alt",
-      title: "Uniform title"
-    },
-    renderImage(image, attributes) {
-      const [ Image, options ] = image;
-      const [ src, attrs ] = attributes;
-
-      Image(src, options);
-
-      const metadata = Image.statsSync(src, options);
-      const imageMarkup = Image.generateHTML(metadata, attrs, {
-        whitespaceMode: "inline"
-      });
-    
-      return `<figure>${imageMarkup}${attrs.title ? `<figcaption>${attrs.title}</figcaption>` : ""}</figure>`;
-    }
-  }));
- */
