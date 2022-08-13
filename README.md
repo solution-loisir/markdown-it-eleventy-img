@@ -78,8 +78,6 @@ Lets you render custom markup and do almost everything you like with your markdo
 Here's an exemple of using the options object:
 
 ```js
-// ...
-
 .use(markdownItEleventyImg, {
   imgOptions: {
     widths: [800, 500, 300],
@@ -107,19 +105,26 @@ With these options, the image `![Image alt](./img/my-image.jpg "Title text!")`, 
 ```
 The `alt`, the `src`, and the optional `title` attributes are taken from the markdown token: `![alt](./source.ext "Title")`. 
 
-Setting `alt`, `title` or `src` properties in the `attributes` config object will have no effect on the markdown image output. These attributes have to be set on the markdown image token instead.
+Setting `alt`, `src` or `title` properties in the `attributes` config object will have no effect on the markdown image output. These attributes have to be set on the markdown image token instead.
 
 A warning will be logged in the console if any of these properties are set in the `globalAttributes` config object.
 
 ## Custom image rendering
 
-You may use the `renderImage` method to customize the output or to add logic to your image rendering. This function is returned inside of the image renderer so any string returned by `renderImage` will output the markup for every image token. 
+You may use the `renderImage` method to customize the output or to add logic to your image rendering. This function is returned inside of the image renderer so any string returned by `renderImage` will render the markup for every image tokens.
+
+```js
+renderImage(image, attributes) {
+  const [ src, attrs ] = attributes;
+  const alt = attrs.alt;
+    
+  return `<img src="${src}" alt="${alt}">`;
+}
+```
 
 `renderImage` takes two parameters and each one are tuples.
 
 ```js
-// ...
-
 renderImage(image, attributes) {
   const [ Image, options ] = image;
   const [ src, attrs ] = attributes;
@@ -137,8 +142,6 @@ const allAttributes = { ...attrs, src }
 Here's an exemple of adding a `<figure>` parent and an optional `<figcaption>` to the image in [Eleventy](https://www.11ty.dev/).
 
 ```js
-// ...
-
 renderImage(image, attributes) {
   const [ Image, options ] = image;
   const [ src, attrs ] = attributes;
