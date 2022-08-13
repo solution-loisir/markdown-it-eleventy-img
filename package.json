@@ -7,8 +7,7 @@
     "access": "public"
   },
   "scripts": {
-    "test": "ava",
-    "start": "npx @11ty/eleventy --serve"
+    "test": "ava"
   },
   "engines": {
     "node": ">=12"
