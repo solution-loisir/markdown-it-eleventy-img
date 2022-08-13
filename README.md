@@ -1,9 +1,9 @@
 # markdown-it-eleventy-img
 A [markdown-it](https://github.com/markdown-it/markdown-it) plugin that processes images through the [eleventy-img](https://github.com/11ty/eleventy-img) plugin. Can be used in any projects that uses markdown-it. Fully compatible with the [Eleventy](https://www.11ty.dev/) static site generator.
 
-![Npm version badge.](https://img.shields.io/npm/v/markdown-it-eleventy-img)
+![NPM version badge.](https://img.shields.io/npm/v/markdown-it-eleventy-img)
 [![GitHub issues badge.](https://img.shields.io/github/issues/solution-loisir/markdown-it-eleventy-img)](https://github.com/solution-loisir/markdown-it-eleventy-img/issues)
-![NPM](https://img.shields.io/npm/l/markdown-it-eleventy-img)
+[![NPM license badge.](https://img.shields.io/npm/l/markdown-it-eleventy-img)](https://github.com/solution-loisir/markdown-it-eleventy-img/blob/master/LICENSE)
 
 ## Status
 
