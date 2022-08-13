@@ -113,7 +113,7 @@ A warning will be logged in the console if any of these properties are set in th
 
 ## Custom image rendering
 
-You may use the `renderImage` method (a callback function) to customize the output or to add logic to your image rendering. This function is returned inside of the image renderer so any string returned by `renderImage` will output the markup for every image token. 
+You may use the `renderImage` method to customize the output or to add logic to your image rendering. This function is returned inside of the image renderer so any string returned by `renderImage` will output the markup for every image token. 
 
 `renderImage` takes two parameters and each one are tuples.
 
