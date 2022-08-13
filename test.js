@@ -1,5 +1,6 @@
 const test = require("ava");
 const md = require("markdown-it")();
+const markdownItAttrs = require('markdown-it-attrs');
 const markdownItEleventyImg = require("./");
 const logWarningFor = require("./utilities/warnings");
 const generateAttrsObject = require("./utilities/generate-attrs-object");
@@ -10,6 +11,7 @@ const Eleventy = require("@11ty/eleventy");
 const eleventyInput = "test-eleventy";
 const eleventyOutput = "_site";
 const imageDiplomees2021 = '![Alt diplomees2021](./assets/images/diplomees2021.jpg "Title diplomees2021")';
+const imagemarkdownItAttrs = '![Alt diplomees2021](./assets/images/diplomees2021.jpg "Title diplomees2021"){loading=lazy}';
 
 test("Log warning for alt", t => {
   const globalAttributes = {
@@ -100,6 +102,28 @@ test("remove-key-from", t => {
     alt: "Alt diplomees2021",
     title: "Title diplomees2021"
   });
+});
+
+test("markdown-it-attrs pass down attributes", t => {
+  const result = md
+  .use(markdownItEleventyImg)
+  .use(markdownItAttrs)
+  .render(imagemarkdownItAttrs);
+
+  t.is(result, '<p><picture><source type="image/webp" srcset="/img/pRWAdktn3m-2048.webp 2048w"><img alt="Alt diplomees2021" title="Title diplomees2021" loading="lazy" src="/img/pRWAdktn3m-2048.jpeg" width="2048" height="1463"></picture></p>\n');
+});
+
+test("markdown-it-attrs pass overrides attributes", t => {
+  const result = md
+  .use(markdownItEleventyImg, {
+    globalAttributes: {
+      loading: "eager"
+    }
+  })
+  .use(markdownItAttrs)
+  .render(imagemarkdownItAttrs);
+
+  t.is(result, '<p><picture><source type="image/webp" srcset="/img/pRWAdktn3m-2048.webp 2048w"><img loading="lazy" alt="Alt diplomees2021" title="Title diplomees2021" src="/img/pRWAdktn3m-2048.jpeg" width="2048" height="1463"></picture></p>\n');
 });
 
 test("markdownItEleventyImg with markdown-it (default no-config)", t => {
