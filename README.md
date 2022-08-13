@@ -105,9 +105,9 @@ With these options, the image `![Image alt](./img/my-image.jpg "Title text!")`, 
 ```
 The `alt`, the `src`, and the optional `title` attributes are taken from the markdown token: `![alt](./source.ext "Title")`. 
 
-Setting `alt`, `src` or `title` properties in the `attributes` config object will have no effect on the markdown image output. These attributes have to be set on the markdown image token instead.
+Setting `alt`, `src` or `title` properties in `globalAttributes` will have no effect on the markdown image output. These attributes have to be set on the markdown image token instead.
 
-A warning will be logged in the console if any of these properties are set in the `globalAttributes` config object.
+A warning will be logged in the console if any of these properties are set in `globalAttributes`.
 
 ## Custom image rendering
 
