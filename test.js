@@ -79,10 +79,19 @@ test("typeObjectError for imgOptions (undefined not throwing)", t => {
 
 test("generate-attrs-object", t => {
   const tokens = md.parseInline(imageDiplomees2021);
+  const token = tokens[0].children[0];
   
-  const tokenAttributes = generateAttrsObject(tokens[0].children[0]);
+  const tokenAttributes = generateAttrsObject(token).attrs;
 
   t.deepEqual(tokenAttributes, {
+    src: "./assets/images/diplomees2021.jpg",
+    alt: "",
+    title: "Title diplomees2021"
+  });
+
+  const tokenAttributesWithAlt = generateAttrsObject(token).addContentTo("alt").attrs;
+
+  t.deepEqual(tokenAttributesWithAlt, {
     src: "./assets/images/diplomees2021.jpg",
     alt: "Alt diplomees2021",
     title: "Title diplomees2021"
