@@ -4,7 +4,11 @@ module.exports = token => {
     return acc;
   }, {});
 
-  tokenAttributes.alt = token.content;
-
-  return tokenAttributes;
+  return {
+    attrs: tokenAttributes,
+    addContentTo(key = "") {
+      this.attrs[key] = token.content;
+      return this;
+    }
+  };
 }

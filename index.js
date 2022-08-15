@@ -20,7 +20,7 @@ module.exports = function markdownItEleventyImg(md, {
 
     const token = tokens[index];
 
-    const tokenAttributes = generateAttrsObject(token);
+    const tokenAttributes = generateAttrsObject(token).addContentTo("alt").attrs;
 
     const src = tokenAttributes.src;
 
