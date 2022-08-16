@@ -1,6 +1,7 @@
 const test = require("ava");
 const md = require("markdown-it")();
 const markdownItAttrs = require('markdown-it-attrs');
+const implicitFigures = require("markdown-it-implicit-figures");
 const markdownItEleventyImg = require("./");
 const logWarningFor = require("./utilities/warnings");
 const generateAttrsObject = require("./utilities/generate-attrs-object");
@@ -135,13 +136,13 @@ test("markdown-it-attrs pass overrides attributes", t => {
   t.is(result, '<p><picture><source type="image/webp" srcset="/img/pRWAdktn3m-2048.webp 2048w"><img loading="lazy" alt="Alt diplomees2021" title="Title diplomees2021" src="/img/pRWAdktn3m-2048.jpeg" width="2048" height="1463"></picture></p>\n');
 });
 
-test("markdownItEleventyImg with markdown-it (default no-config)", t => {
+test.serial("markdownItEleventyImg with markdown-it (default no-config)", t => {
   const result = md.use(markdownItEleventyImg).render(imageDiplomees2021);
 
   t.is(result, '<p><picture><source type="image/webp" srcset="/img/pRWAdktn3m-2048.webp 2048w"><img alt="Alt diplomees2021" title="Title diplomees2021" src="/img/pRWAdktn3m-2048.jpeg" width="2048" height="1463"></picture></p>\n');
 });
 
-test("markdownItEleventyImg with markdown-it with imgOptions and globalAttributes (dryrun)", t => {
+test.serial("markdownItEleventyImg with markdown-it with imgOptions and globalAttributes (dryrun)", t => {
   const result = md.use(markdownItEleventyImg, {
     imgOptions: {
       widths: [800, 500, 300],
@@ -160,7 +161,7 @@ test("markdownItEleventyImg with markdown-it with imgOptions and globalAttribute
   t.is(result, '<p><picture><source type="image/avif" srcset="/images/pRWAdktn3m-300.avif 300w, /images/pRWAdktn3m-500.avif 500w, /images/pRWAdktn3m-800.avif 800w" sizes="100vw"><source type="image/webp" srcset="/images/pRWAdktn3m-300.webp 300w, /images/pRWAdktn3m-500.webp 500w, /images/pRWAdktn3m-800.webp 800w" sizes="100vw"><source type="image/jpeg" srcset="/images/pRWAdktn3m-300.jpeg 300w, /images/pRWAdktn3m-500.jpeg 500w, /images/pRWAdktn3m-800.jpeg 800w" sizes="100vw"><img class="markdown-image" decoding="async" alt="Alt diplomees2021" title="Title diplomees2021" src="/images/pRWAdktn3m-300.jpeg" width="800" height="571"></picture></p>\n');
 });
 
-test("markdownItEleventyImg with markdown-it with renderImage (dryrun)", t => {
+test.serial("markdownItEleventyImg with markdown-it with renderImage (dryrun)", t => {
   const result = md.use(markdownItEleventyImg, {
     imgOptions: {
       dryRun: true
@@ -260,6 +261,24 @@ test.serial("markdownItEleventyImg with Eleventy with renderImage (dryrun)", asy
   let json = await elev.toJSON();
   
   t.is(json[0].content, '<p><figure><picture><source type="image/webp" srcset="/img/pRWAdktn3m-2048.webp 2048w"><img alt="Alt diplomees2021" title="Title diplomees2021" src="/img/pRWAdktn3m-2048.jpeg" width="2048" height="1463"></picture><figcaption>Title diplomees2021</figcaption></figure></p>\n');
+});
+
+test.serial("markdown-it-implicit-figures with options (dryrun)", t => {
+  const result = md
+  .use(implicitFigures, {
+    dataType: true,
+    figcaption: true,
+    tabindex: true,
+    link: true
+  })
+  .use(markdownItEleventyImg, {
+    imgOptions: {
+      dryRun: true
+    }
+  })
+  .render(imageDiplomees2021);
+
+  t.is(result, '<figure data-type="image" tabindex="1"><a href="./assets/images/diplomees2021.jpg"><picture><source type="image/webp" srcset="/img/pRWAdktn3m-2048.webp 2048w"><img alt="Alt diplomees2021" title="Title diplomees2021" src="/img/pRWAdktn3m-2048.jpeg" width="2048" height="1463"></picture></a><figcaption>Alt diplomees2021</figcaption></figure>\n');
 });
 
 test.after("cleanup", t => {
