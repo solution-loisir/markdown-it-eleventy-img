@@ -13,6 +13,8 @@ const eleventyInput = "test-eleventy";
 const eleventyOutput = "_site";
 const imageDiplomees2021 = '![Alt diplomees2021](./assets/images/diplomees2021.jpg "Title diplomees2021")';
 const imagemarkdownItAttrs = '![Alt diplomees2021](./assets/images/diplomees2021.jpg "Title diplomees2021"){loading=lazy}';
+const remoteSrc = "https://apod.nasa.gov/apod/image/2208/StargateMilkyWay_Oudoux_1800.jpg"
+const remoteImage = `![](${remoteSrc})`;
 
 test("Log warning for alt", t => {
   const globalAttributes = {
@@ -279,6 +281,18 @@ test.serial("markdown-it-implicit-figures with options (dryrun)", t => {
   .render(imageDiplomees2021);
 
   t.is(result, '<figure data-type="image" tabindex="1"><a href="./assets/images/diplomees2021.jpg"><picture><source type="image/webp" srcset="/img/pRWAdktn3m-2048.webp 2048w"><img alt="Alt diplomees2021" title="Title diplomees2021" src="/img/pRWAdktn3m-2048.jpeg" width="2048" height="1463"></picture></a><figcaption>Alt diplomees2021</figcaption></figure>\n');
+});
+
+test("Remote images not supported by `statsSync`", t => {
+  t.throws(() => {
+    md
+    .use(markdownItEleventyImg, {
+      imgOptions: {
+        dryRun: true
+      }
+    })
+    .render(remoteImage);
+  });
 });
 
 test.after("cleanup", t => {
