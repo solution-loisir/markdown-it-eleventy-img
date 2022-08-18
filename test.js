@@ -265,6 +265,30 @@ test.serial("markdownItEleventyImg with Eleventy with renderImage (dryrun)", asy
   t.is(json[0].content, '<p><figure><picture><source type="image/webp" srcset="/img/pRWAdktn3m-2048.webp 2048w"><img alt="Alt diplomees2021" title="Title diplomees2021" src="/img/pRWAdktn3m-2048.jpeg" width="2048" height="1463"></picture><figcaption>Title diplomees2021</figcaption></figure></p>\n');
 });
 
+test("Remote images not throwing error", t => {
+  t.notThrows(() => {
+    md
+    .use(markdownItEleventyImg, {
+      imgOptions: {
+        dryRun: true
+      }
+    })
+    .render(remoteImage);
+  });
+});
+
+test.serial("Remote images falls back to default markdown-it renderer", t => {
+  const result = md
+  .use(markdownItEleventyImg, {
+    imgOptions: {
+      dryRun: true
+    }
+  })
+  .render(remoteImage);
+
+  t.is(result, '<p><img src="https://apod.nasa.gov/apod/image/2208/StargateMilkyWay_Oudoux_1800.jpg" alt=""></p>\n');
+});
+
 test.serial("markdown-it-implicit-figures with options (dryrun)", t => {
   const result = md
   .use(implicitFigures, {
@@ -281,18 +305,6 @@ test.serial("markdown-it-implicit-figures with options (dryrun)", t => {
   .render(imageDiplomees2021);
 
   t.is(result, '<figure data-type="image" tabindex="1"><a href="./assets/images/diplomees2021.jpg"><picture><source type="image/webp" srcset="/img/pRWAdktn3m-2048.webp 2048w"><img alt="Alt diplomees2021" title="Title diplomees2021" src="/img/pRWAdktn3m-2048.jpeg" width="2048" height="1463"></picture></a><figcaption>Alt diplomees2021</figcaption></figure>\n');
-});
-
-test("Remote images not supported by `statsSync`", t => {
-  t.throws(() => {
-    md
-    .use(markdownItEleventyImg, {
-      imgOptions: {
-        dryRun: true
-      }
-    })
-    .render(remoteImage);
-  });
 });
 
 test.after("cleanup", t => {

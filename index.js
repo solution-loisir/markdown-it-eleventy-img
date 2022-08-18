@@ -35,6 +35,10 @@ module.exports = function markdownItEleventyImg(md, {
       const attributes = [ src, imageAttributes ];
       return renderImage(image, attributes);
     }
+
+    if(Image.Util.isRemoteUrl(src)) {
+      return renderer.renderToken(tokens, index, rendererOptions);
+    }
     
     Image(src, imgOptions);
 
