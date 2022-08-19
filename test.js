@@ -13,8 +13,36 @@ const eleventyInput = "test-eleventy";
 const eleventyOutput = "_site";
 const imageDiplomees2021 = '![Alt diplomees2021](./assets/images/diplomees2021.jpg "Title diplomees2021")';
 const imagemarkdownItAttrs = '![Alt diplomees2021](./assets/images/diplomees2021.jpg "Title diplomees2021"){loading=lazy}';
+const imgWithoutTitle = '![Alt diplomees2021](./assets/images/diplomees2021.jpg)';
+const imgWithEmptyTitle = '![Alt diplomees2021](./assets/images/diplomees2021.jpg "")';
 const remoteSrc = "https://apod.nasa.gov/apod/image/2208/StargateMilkyWay_Oudoux_1800.jpg"
 const remoteImage = `![](${remoteSrc})`;
+
+test("Empty string title is undefined", t => {
+  md.use(markdownItEleventyImg, {
+    imgOptions: {
+      dryRun: true
+    },
+    renderImage(image, attributes) {
+      const [src, attrs] = attributes;
+      t.is(attrs.title, undefined);
+    }
+  })
+  .render(imgWithEmptyTitle);
+});
+
+test("Image without title (title is undefined)", t => {
+  md.use(markdownItEleventyImg, {
+    imgOptions: {
+      dryRun: true
+    },
+    renderImage(image, attributes) {
+      const [src, attrs] = attributes;
+      t.is(attrs.title, undefined);
+    }
+  })
+  .render(imgWithoutTitle);
+});
 
 test("Log warning for alt", t => {
   const globalAttributes = {
