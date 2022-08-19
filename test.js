@@ -17,6 +17,7 @@ const imgWithoutTitle = '![Alt diplomees2021](./assets/images/diplomees2021.jpg)
 const imgWithEmptyTitle = '![Alt diplomees2021](./assets/images/diplomees2021.jpg "")';
 const remoteSrc = "https://apod.nasa.gov/apod/image/2208/StargateMilkyWay_Oudoux_1800.jpg"
 const remoteImage = `![](${remoteSrc})`;
+const remoteImageAlt = `![My cool space pic](${remoteSrc})`
 
 test("Empty string title is undefined", t => {
   md.use(markdownItEleventyImg, {
@@ -315,6 +316,18 @@ test.serial("Remote images falls back to default markdown-it renderer", t => {
   .render(remoteImage);
 
   t.is(result, '<p><img src="https://apod.nasa.gov/apod/image/2208/StargateMilkyWay_Oudoux_1800.jpg" alt=""></p>\n');
+});
+
+test.serial("Remote images properly pass through alt tags into customised markdown-it-renderer", t => {
+  const result = md
+  .use(markdownItEleventyImg, {
+    imgOptions: {
+      dryRun: true
+    }
+  })
+  .render(remoteImageAlt);
+
+  t.is(result, '<p><img src="https://apod.nasa.gov/apod/image/2208/StargateMilkyWay_Oudoux_1800.jpg" alt="My cool space pic"></p>\n');
 });
 
 test.serial("Remote images with `statsByDimensionsSync`", t => {
