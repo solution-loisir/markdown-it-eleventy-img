@@ -79,7 +79,7 @@ Adds attributes to the image output.
 * `renderImage` (function).
 Lets you render custom markup and do almost everything you like with your markdown images (see [Custom image rendering](#custom-image-rendering)).
 
-Here's an exemple of using the options object:
+Here's an exemple of using the options object (without `renderImage`):
 
 ```js
 .use(markdownItEleventyImg, {
@@ -95,10 +95,6 @@ Here's an exemple of using the options object:
     // If you use multiple widths,
     // don't forget to add a `sizes` attribute.
     sizes: "100vw"
-  },
-  renderImage(image, attributes) {
-    // ...
-    return imageMarkup // -> string
   }
 });
 ```
@@ -143,32 +139,47 @@ const [ src, attrs ] = attributes;
 const allAttributes = { ...attrs, src }
 ```
 
-Here's an exemple of adding a `<figure>` parent and an optional `<figcaption>` to the image in [Eleventy](https://www.11ty.dev/).
+Here's an exemple of adding a `<figure>` parent and an optional `<figcaption>`.
 
 ```js
-renderImage(image, attributes) {
-  const [ Image, options ] = image;
-  const [ src, attrs ] = attributes;
+.use(markdownItEleventyImg, {
+  imgOptions: {
+    widths: [600, 300],
+    urlPath: "/images/",
+    outputDir: "./_site/images/",
+    formats: ["avif", "webp", "jpeg"]
+  },
+  globalAttributes: {
+    class: "markdown-image",
+    decoding: "async",
+    sizes: "100vw"
+  },
+  renderImage(image, attributes) {
+    const [ Image, options ] = image;
+    const [ src, attrs ] = attributes;
 
-  Image(src, options);
+    Image(src, options);
 
-  const metadata = Image.statsSync(src, options);
-  const imageMarkup = Image.generateHTML(metadata, attrs, {
-    whitespaceMode: "inline"
-  });
-    
-  return `<figure>${imageMarkup}${attrs.title ? `<figcaption>${attrs.title}</figcaption>` : ""}</figure>`;
-}
+    const metadata = Image.statsSync(src, options);
+    const imageMarkup = Image.generateHTML(metadata, attrs, {
+      whitespaceMode: "inline"
+    });
+
+    return `<figure>${imageMarkup}${attrs.title ? `<figcaption>${attrs.title}</figcaption>` : ""}</figure>`;
+  }
+});
 ```
-> Note that you have to use eleventy-img [synchronous API](https://www.11ty.dev/docs/plugins/image/#synchronous-shortcode) inside `renderImage`. Unfortunately, markdown-it plugins doesn't support async code. It's good to know that even in the sync API, the images are generated asychronously. Got to 😍 11ty!
+> Note that you have to use eleventy-img [synchronous API](https://www.11ty.dev/docs/plugins/image/#synchronous-shortcode) inside `renderImage`. Unfortunately, markdown-it plugins doesn't support async code (see [Limitations](#limitations)). It's good to know that even in the sync API, the images are generated asychronously. Got to 😍 11ty!
 
 ## Use with markdown-it-attrs
 
-Starting with `v0.3.0`, markdown-it-eleventy-img is fully compatible with [markdown-it-attrs](https://www.npmjs.com/package/markdown-it-attrs). Setting attributes with markdown-it-attrs will be passed to the image output. Same attributes will be overridden. The attribute set on the token will prevail over `globalAttributes`. 
+Starting with `v0.3.0`, markdown-it-eleventy-img is fully compatible with [markdown-it-attrs](https://www.npmjs.com/package/markdown-it-attrs). Setting attributes with markdown-it-attrs will be passed to the image output. Same attributes will be overridden. The attribute set on the token will prevail over `globalAttributes`.
 
-## Motivation
+## Limitations
 
-I've seen it asked [here](https://github.com/AleksandrHovhannisyan/aleksandrhovhannisyan.com/issues/118#issuecomment-1190703611) and [there](https://github.com/11ty/eleventy-img/issues/90): can I use the eleventy-img plugin with markdown token? I thought it was a good challenge and I ended-up publishing my work.
+markdown-it-eleventy-img is currently **not supported with remote sources**. Starting with `v0.7.0`, the default behavior will be to revert to native markdown-it renderer whenever remote images are encountered (local sources will still be rendered through eleventy-img).
+
+To process remote images, use code where the eleventy-img [async API](https://www.11ty.dev/docs/plugins/image/#asynchronous-shortcode) is allowed. For a more technical expaination see [issue#2](https://github.com/solution-loisir/markdown-it-eleventy-img/issues/2).
 
 ## Alignements
 
@@ -179,3 +190,7 @@ Also, the aim is to stay coherent with [eleventy-img](https://www.11ty.dev/docs/
 markdown-it-eleventy-img is not a replacement for an Eleventy [shortcode](https://www.11ty.dev/docs/shortcodes/). Shortcodes will give more power and control. On the other hand, markdown will trade control for easiness of reading and writing. 
 
 [Admittedly, it’s fairly difficult to devise a “natural” syntax for placing images into a plain text document format.](https://daringfireball.net/projects/markdown/syntax#img) That beiing said, it's probably nicer to use markdown image syntax to include an image in a blog post than to use a shortcode. So markdown-it-eleventy-img is mainly an ergonomic solution for using eleventy-img plugin with the markdown image synthax.
+
+## Motivation
+
+I've seen it asked [here](https://github.com/AleksandrHovhannisyan/aleksandrhovhannisyan.com/issues/118#issuecomment-1190703611) and [there](https://github.com/11ty/eleventy-img/issues/90): can I use the eleventy-img plugin with markdown token? I thought it was a good challenge and I ended-up publishing my work.
