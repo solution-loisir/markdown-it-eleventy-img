@@ -289,6 +289,31 @@ test.serial("Remote images falls back to default markdown-it renderer", t => {
   t.is(result, '<p><img src="https://apod.nasa.gov/apod/image/2208/StargateMilkyWay_Oudoux_1800.jpg" alt=""></p>\n');
 });
 
+test.serial("Remote images with `statsByDimensionsSync`", t => {
+  const result = md
+  .use(markdownItEleventyImg, {
+    imgOptions: {
+      dryRun: true
+    },
+    renderImage(image, attributes) {
+      const [ Image, options ] = image;
+      const [ src, attrs ] = attributes;
+
+      Image(src, options);
+
+      const metadata = Image.statsByDimensionsSync(src, 1800, 1800, options);
+      const imageMarkup = Image.generateHTML(metadata, attrs, {
+        whitespaceMode: "inline"
+      });
+
+      return imageMarkup;
+    }
+  })
+  .render(remoteImage);
+
+  t.is(result, '<p><picture><source type="image/webp" srcset="/img/AxQcZ32Em8-1800.webp 1800w"><img alt="" src="/img/AxQcZ32Em8-1800.jpeg" width="1800" height="1800"></picture></p>\n');
+});
+
 test.serial("markdown-it-implicit-figures with options (dryrun)", t => {
   const result = md
   .use(implicitFigures, {
