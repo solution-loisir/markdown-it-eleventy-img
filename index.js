@@ -37,6 +37,7 @@ module.exports = function markdownItEleventyImg(md, {
     }
 
     if(Image.Util.isRemoteUrl(src)) {
+      token.attrs[token.attrIndex('alt')][1] = tokenAttributes.alt
       return renderer.renderToken(tokens, index, rendererOptions);
     }
     
