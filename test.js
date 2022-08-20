@@ -306,7 +306,7 @@ test("Remote images not throwing error", t => {
   });
 });
 
-test.serial("Remote images falls back to default markdown-it renderer", t => {
+test.serial("Remote images falls back to default markdown-it renderer (no alt)", t => {
   const result = md
   .use(markdownItEleventyImg, {
     imgOptions: {
