@@ -15,9 +15,47 @@ const imageDiplomees2021 = '![Alt diplomees2021](./assets/images/diplomees2021.j
 const imagemarkdownItAttrs = '![Alt diplomees2021](./assets/images/diplomees2021.jpg "Title diplomees2021"){loading=lazy}';
 const imgWithoutTitle = '![Alt diplomees2021](./assets/images/diplomees2021.jpg)';
 const imgWithEmptyTitle = '![Alt diplomees2021](./assets/images/diplomees2021.jpg "")';
-const remoteSrc = "https://apod.nasa.gov/apod/image/2208/StargateMilkyWay_Oudoux_1800.jpg"
+const remoteSrc = "https://apod.nasa.gov/apod/image/2208/StargateMilkyWay_Oudoux_1800.jpg";
+const remoteSrc_1 = "https://www.nasa.gov/sites/default/files/thumbnails/image/web_first_images_release.png";
+const remoteSrc_2 = "https://www.nasa.gov/sites/default/files/thumbnails/image/main_image_deep_field_smacs0723-5mb.jpg";
 const remoteImage = `![](${remoteSrc})`;
-const remoteImageAlt = `![My cool space pic](${remoteSrc})`
+const remoteImageAlt = `![My cool space pic](${remoteSrc})`;
+const remoteImageAltAndTitle = `![My cool space pic](${remoteSrc} "Remote title")`;
+const multipleRemoteImages = `![First alt](${remoteSrc} "First title")\n![Second alt](${remoteSrc_1} "Second title")\n![Third alt](${remoteSrc_2} "Third title")`;
+const multipleLocalImages = `${imageDiplomees2021}\n![Alt sejour](./assets/images/sejour-plein-air.jpg "Title sejour")`;
+const markdownItAttrsWidthAndHeight = '![](./assets/images/diplomees2021.jpg){width=200 height=100}';
+
+test("Not passing global width and height to local images", t => {
+  const result = md.use(markdownItEleventyImg, {
+    imgOptions: {
+      dryRun: true
+    },
+    globalAttributes: {
+      width: 1800,
+      height: 900
+    }
+  }).render(multipleLocalImages);
+
+  t.is(result, '<p><picture><source type="image/webp" srcset="/img/pRWAdktn3m-2048.webp 2048w"><img width="2048" height="1463" alt="Alt diplomees2021" title="Title diplomees2021" src="/img/pRWAdktn3m-2048.jpeg"></picture>\n' +
+  '<picture><source type="image/webp" srcset="/img/jxfAXAKLAr-958.webp 958w"><img width="958" height="504" alt="Alt sejour" title="Title sejour" src="/img/jxfAXAKLAr-958.jpeg"></picture></p>\n');
+});
+
+test("Global width and height are present in the attributes object", t => {
+  const result = md.use(markdownItEleventyImg, {
+    imgOptions: {
+      dryRun: true
+    },
+    globalAttributes: {
+      width: 1800,
+      height: 900
+    },
+    renderImage(image, attributes) {
+      const [src, attrs] = attributes;
+      t.is(attrs.width, 1800);
+      t.is(attrs.height, 900);
+    }
+  }).render(multipleLocalImages);
+});
 
 test("Empty string title is undefined", t => {
   md.use(markdownItEleventyImg, {
@@ -143,6 +181,45 @@ test("remove-key-from", t => {
     alt: "Alt diplomees2021",
     title: "Title diplomees2021"
   });
+});
+
+test("markdown-it-attrs overrides globalAttributes (typed string)", t => {
+  md
+  .use(markdownItAttrs)
+  .use(markdownItEleventyImg, {
+    imgOptions: {
+      dryRun: true
+    },
+    globalAttributes: {
+      width: 1800,
+      height: 900
+    },
+    renderImage(image, attributes) {
+      const [src, attrs] = attributes;
+      t.true(typeof attrs.width === "string");
+      t.is(attrs.width, "200");
+      t.true(typeof attrs.height === "string");
+      t.is(attrs.height, "100");
+    }
+  })
+  .render(markdownItAttrsWidthAndHeight);
+});
+
+test("Width and height attributes are not passed to local image output (from token or from config)", t => {
+  const result = md
+  .use(markdownItAttrs)
+  .use(markdownItEleventyImg, {
+    imgOptions: {
+      dryRun: true
+    },
+    globalAttributes: {
+      width: 1800,
+      height: 900
+    }
+  })
+  .render(markdownItAttrsWidthAndHeight);
+
+  t.is(result, '<p><picture><source type="image/webp" srcset="/img/pRWAdktn3m-2048.webp 2048w"><img width="2048" height="1463" alt="" src="/img/pRWAdktn3m-2048.jpeg"></picture></p>\n');
 });
 
 test("markdown-it-attrs pass down attributes", t => {
@@ -328,6 +405,32 @@ test.serial("Remote images properly pass through alt tags into customised markdo
   .render(remoteImageAlt);
 
   t.is(result, '<p><img src="https://apod.nasa.gov/apod/image/2208/StargateMilkyWay_Oudoux_1800.jpg" alt="My cool space pic"></p>\n');
+});
+
+test.serial("Remote images properly pass through alt and title", t => {
+  const result = md
+  .use(markdownItEleventyImg, {
+    imgOptions: {
+      dryRun: true
+    }
+  })
+  .render(remoteImageAltAndTitle);
+
+  t.is(result, '<p><img src="https://apod.nasa.gov/apod/image/2208/StargateMilkyWay_Oudoux_1800.jpg" alt="My cool space pic" title="Remote title"></p>\n');
+});
+
+test.serial("Remote images properly pass through alt and title on multiple images", t => {
+  const result = md
+  .use(markdownItEleventyImg, {
+    imgOptions: {
+      dryRun: true
+    }
+  })
+  .render(multipleRemoteImages);
+
+  t.is(result, '<p><img src="https://apod.nasa.gov/apod/image/2208/StargateMilkyWay_Oudoux_1800.jpg" alt="First alt" title="First title">\n' +
+  '<img src="https://www.nasa.gov/sites/default/files/thumbnails/image/web_first_images_release.png" alt="Second alt" title="Second title">\n' +
+  '<img src="https://www.nasa.gov/sites/default/files/thumbnails/image/main_image_deep_field_smacs0723-5mb.jpg" alt="Third alt" title="Third title"></p>\n');
 });
 
 test.serial("Remote images with `statsByDimensionsSync`", t => {
