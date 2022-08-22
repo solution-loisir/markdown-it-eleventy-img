@@ -86,7 +86,7 @@ test("Log warning for alt", t => {
     alt: ""
   };
 
-  t.is(logWarningFor(globalAttributes), "WARNING: Setting alt in configuration will have no effect on the markdown image output. The alt attribute has to be set on the markdown image token.");
+  t.is(logWarningFor(globalAttributes), "Markdown-it-eleventy-img WARNING: Setting `alt` in `globalAttributes` will have no effect on the markdown image output. The `alt` attribute has to be set on the markdown image token.");
 });
 
 test("Log warning for title", t => {
@@ -94,7 +94,7 @@ test("Log warning for title", t => {
     title: ""
   };
 
-  t.is(logWarningFor(globalAttributes), "WARNING: Setting title in configuration will have no effect on the markdown image output. The title attribute has to be set on the markdown image token.");
+  t.is(logWarningFor(globalAttributes), "Markdown-it-eleventy-img WARNING: Setting `title` in `globalAttributes` will have no effect on the markdown image output. The `title` attribute has to be set on the markdown image token.");
 });
 
 test("Log warning for src", t => {
@@ -102,7 +102,7 @@ test("Log warning for src", t => {
     src: ""
   };
 
-  t.is(logWarningFor(globalAttributes), "WARNING: Setting src in configuration will have no effect on the markdown image output. The src attribute has to be set on the markdown image token.");
+  t.is(logWarningFor(globalAttributes), "Markdown-it-eleventy-img WARNING: Setting `src` in `globalAttributes` will have no effect on the markdown image output. The `src` attribute has to be set on the markdown image token.");
 });
 
 test("typeObjectError for imgOptions (string)", t => {
