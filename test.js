@@ -81,6 +81,45 @@ test("Image without title (title is undefined)", t => {
   }).render(imgWithoutTitle);
 });
 
+test.serial("Title in globalAttributes is overriden by token title", t => {
+  const result = md.use(markdownItEleventyImg, {
+    imgOptions: {
+      dryRun: true
+    },
+    globalAttributes: {
+      "title": "Global title"
+    }
+  }).render(imageDiplomees2021);
+
+  t.is(result, '<p><picture><source type="image/webp" srcset="/img/pRWAdktn3m-2048.webp 2048w"><img title="Title diplomees2021" alt="Alt diplomees2021" src="/img/pRWAdktn3m-2048.jpeg" width="2048" height="1463"></picture></p>\n');
+});
+
+test.serial("Title in globalAttributes overrides token with empty title", t => {
+  const result = md.use(markdownItEleventyImg, {
+    imgOptions: {
+      dryRun: true
+    },
+    globalAttributes: {
+      "title": ""
+    }
+  }).render(imgWithEmptyTitle);
+
+  t.is(result, '<p><picture><source type="image/webp" srcset="/img/pRWAdktn3m-2048.webp 2048w"><img title="" alt="Alt diplomees2021" src="/img/pRWAdktn3m-2048.jpeg" width="2048" height="1463"></picture></p>\n');
+});
+
+test.serial("Title in globalAttributes is applied when no token title", t => {
+  const result = md.use(markdownItEleventyImg, {
+    imgOptions: {
+      dryRun: true
+    },
+    globalAttributes: {
+      title: "Global title"
+    }
+  }).render(imgWithoutTitle);
+
+  t.is(result, '<p><picture><source type="image/webp" srcset="/img/pRWAdktn3m-2048.webp 2048w"><img title="Global title" alt="Alt diplomees2021" src="/img/pRWAdktn3m-2048.jpeg" width="2048" height="1463"></picture></p>\n');
+});
+
 test("Log warning for alt", t => {
   const globalAttributes = {
     alt: ""
