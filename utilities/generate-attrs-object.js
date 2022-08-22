@@ -11,4 +11,4 @@ module.exports = token => {
       return this;
     }
   };
-}
+};

@@ -11,4 +11,4 @@ const remove = (excludeValue = "") => ({
 
 module.exports = {
   remove
-}
+};

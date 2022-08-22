@@ -12,4 +12,4 @@ module.exports = target => {
   });
 
   return warning;
-}
+};

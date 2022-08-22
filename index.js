@@ -28,7 +28,7 @@ module.exports = function markdownItEleventyImg(md, {
 
     const globalAttributesWithoutTitle = remove("title").from(globalAttributes);
 
-    const imageAttributes = { ...globalAttributesWithoutTitle, ...tokenAttributesWithoutSrc }
+    const imageAttributes = { ...globalAttributesWithoutTitle, ...tokenAttributesWithoutSrc };
 
     if(renderImage) {
       const image = [ Image, imgOptions ];
@@ -49,5 +49,5 @@ module.exports = function markdownItEleventyImg(md, {
     });
     
     return imageMarkup;
-  }
-}
+  };
+};

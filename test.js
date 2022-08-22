@@ -41,7 +41,7 @@ test("Not passing global width and height to local images", t => {
 });
 
 test("Global width and height are present in the attributes object", t => {
-  const result = md.use(markdownItEleventyImg, {
+  md.use(markdownItEleventyImg, {
     imgOptions: {
       dryRun: true
     },
@@ -66,8 +66,7 @@ test("Empty string title is undefined", t => {
       const [src, attrs] = attributes;
       t.is(attrs.title, undefined);
     }
-  })
-  .render(imgWithEmptyTitle);
+  }).render(imgWithEmptyTitle);
 });
 
 test("Image without title (title is undefined)", t => {
@@ -79,14 +78,13 @@ test("Image without title (title is undefined)", t => {
       const [src, attrs] = attributes;
       t.is(attrs.title, undefined);
     }
-  })
-  .render(imgWithoutTitle);
+  }).render(imgWithoutTitle);
 });
 
 test("Log warning for alt", t => {
   const globalAttributes = {
     alt: ""
-  }
+  };
 
   t.is(logWarningFor(globalAttributes), "WARNING: Setting alt in configuration will have no effect on the markdown image output. The alt attribute has to be set on the markdown image token.");
 });
@@ -94,7 +92,7 @@ test("Log warning for alt", t => {
 test("Log warning for title", t => {
   const globalAttributes = {
     title: ""
-  }
+  };
 
   t.is(logWarningFor(globalAttributes), "WARNING: Setting title in configuration will have no effect on the markdown image output. The title attribute has to be set on the markdown image token.");
 });
@@ -102,7 +100,7 @@ test("Log warning for title", t => {
 test("Log warning for src", t => {
   const globalAttributes = {
     src: ""
-  }
+  };
 
   t.is(logWarningFor(globalAttributes), "WARNING: Setting src in configuration will have no effect on the markdown image output. The src attribute has to be set on the markdown image token.");
 });
@@ -173,7 +171,7 @@ test("remove-key-from", t => {
     src: "./assets/images/diplomees2021.jpg",
     alt: "Alt diplomees2021",
     title: "Title diplomees2021"
-  }
+  };
 
   const tokenAttributesWithoutSrc = remove("src").from(tokenAttributes);
 
@@ -184,62 +182,59 @@ test("remove-key-from", t => {
 });
 
 test("markdown-it-attrs overrides globalAttributes (typed string)", t => {
-  md
-  .use(markdownItAttrs)
-  .use(markdownItEleventyImg, {
-    imgOptions: {
-      dryRun: true
-    },
-    globalAttributes: {
-      width: 1800,
-      height: 900
-    },
-    renderImage(image, attributes) {
-      const [src, attrs] = attributes;
-      t.true(typeof attrs.width === "string");
-      t.is(attrs.width, "200");
-      t.true(typeof attrs.height === "string");
-      t.is(attrs.height, "100");
-    }
-  })
-  .render(markdownItAttrsWidthAndHeight);
+  md.use(markdownItAttrs)
+    .use(markdownItEleventyImg, {
+      imgOptions: {
+        dryRun: true
+      },
+      globalAttributes: {
+        width: 1800,
+        height: 900
+      },
+      renderImage(image, attributes) {
+        const [src, attrs] = attributes;
+        t.true(typeof attrs.width === "string");
+        t.is(attrs.width, "200");
+        t.true(typeof attrs.height === "string");
+        t.is(attrs.height, "100");
+      }
+    }).render(markdownItAttrsWidthAndHeight);
 });
 
 test("Width and height attributes are not passed to local image output (from token or from config)", t => {
   const result = md
-  .use(markdownItAttrs)
-  .use(markdownItEleventyImg, {
-    imgOptions: {
-      dryRun: true
-    },
-    globalAttributes: {
-      width: 1800,
-      height: 900
-    }
-  })
-  .render(markdownItAttrsWidthAndHeight);
+    .use(markdownItAttrs)
+    .use(markdownItEleventyImg, {
+      imgOptions: {
+        dryRun: true
+      },
+      globalAttributes: {
+        width: 1800,
+        height: 900
+      }
+    }).render(markdownItAttrsWidthAndHeight);
 
   t.is(result, '<p><picture><source type="image/webp" srcset="/img/pRWAdktn3m-2048.webp 2048w"><img width="2048" height="1463" alt="" src="/img/pRWAdktn3m-2048.jpeg"></picture></p>\n');
 });
 
 test("markdown-it-attrs pass down attributes", t => {
   const result = md
-  .use(markdownItEleventyImg)
-  .use(markdownItAttrs)
-  .render(imagemarkdownItAttrs);
+    .use(markdownItEleventyImg)
+    .use(markdownItAttrs)
+    .render(imagemarkdownItAttrs);
 
   t.is(result, '<p><picture><source type="image/webp" srcset="/img/pRWAdktn3m-2048.webp 2048w"><img alt="Alt diplomees2021" title="Title diplomees2021" loading="lazy" src="/img/pRWAdktn3m-2048.jpeg" width="2048" height="1463"></picture></p>\n');
 });
 
 test("markdown-it-attrs pass overrides attributes", t => {
   const result = md
-  .use(markdownItEleventyImg, {
-    globalAttributes: {
-      loading: "eager"
-    }
-  })
-  .use(markdownItAttrs)
-  .render(imagemarkdownItAttrs);
+    .use(markdownItEleventyImg, {
+      globalAttributes: {
+        loading: "eager"
+      }
+    })
+    .use(markdownItAttrs)
+    .render(imagemarkdownItAttrs);
 
   t.is(result, '<p><picture><source type="image/webp" srcset="/img/pRWAdktn3m-2048.webp 2048w"><img loading="lazy" alt="Alt diplomees2021" title="Title diplomees2021" src="/img/pRWAdktn3m-2048.jpeg" width="2048" height="1463"></picture></p>\n');
 });
@@ -373,60 +368,54 @@ test.serial("markdownItEleventyImg with Eleventy with renderImage (dryrun)", asy
 
 test("Remote images not throwing error", t => {
   t.notThrows(() => {
-    md
-    .use(markdownItEleventyImg, {
+    md.use(markdownItEleventyImg, {
       imgOptions: {
         dryRun: true
       }
-    })
-    .render(remoteImage);
+    }).render(remoteImage);
   });
 });
 
 test.serial("Remote images falls back to default markdown-it renderer (no alt)", t => {
   const result = md
-  .use(markdownItEleventyImg, {
-    imgOptions: {
-      dryRun: true
-    }
-  })
-  .render(remoteImage);
+    .use(markdownItEleventyImg, {
+      imgOptions: {
+        dryRun: true
+      }
+    }).render(remoteImage);
 
   t.is(result, '<p><img src="https://apod.nasa.gov/apod/image/2208/StargateMilkyWay_Oudoux_1800.jpg" alt=""></p>\n');
 });
 
 test.serial("Remote images properly pass through alt tags into customised markdown-it-renderer", t => {
   const result = md
-  .use(markdownItEleventyImg, {
-    imgOptions: {
-      dryRun: true
-    }
-  })
-  .render(remoteImageAlt);
+    .use(markdownItEleventyImg, {
+      imgOptions: {
+        dryRun: true
+      }
+    }).render(remoteImageAlt);
 
   t.is(result, '<p><img src="https://apod.nasa.gov/apod/image/2208/StargateMilkyWay_Oudoux_1800.jpg" alt="My cool space pic"></p>\n');
 });
 
 test.serial("Remote images properly pass through alt and title", t => {
   const result = md
-  .use(markdownItEleventyImg, {
-    imgOptions: {
-      dryRun: true
-    }
-  })
-  .render(remoteImageAltAndTitle);
+    .use(markdownItEleventyImg, {
+      imgOptions: {
+        dryRun: true
+      }
+    }).render(remoteImageAltAndTitle);
 
   t.is(result, '<p><img src="https://apod.nasa.gov/apod/image/2208/StargateMilkyWay_Oudoux_1800.jpg" alt="My cool space pic" title="Remote title"></p>\n');
 });
 
 test.serial("Remote images properly pass through alt and title on multiple images", t => {
   const result = md
-  .use(markdownItEleventyImg, {
-    imgOptions: {
-      dryRun: true
-    }
-  })
-  .render(multipleRemoteImages);
+    .use(markdownItEleventyImg, {
+      imgOptions: {
+        dryRun: true
+      }
+    }).render(multipleRemoteImages);
 
   t.is(result, '<p><img src="https://apod.nasa.gov/apod/image/2208/StargateMilkyWay_Oudoux_1800.jpg" alt="First alt" title="First title">\n' +
   '<img src="https://www.nasa.gov/sites/default/files/thumbnails/image/web_first_images_release.png" alt="Second alt" title="Second title">\n' +
@@ -435,48 +424,46 @@ test.serial("Remote images properly pass through alt and title on multiple image
 
 test.serial("Remote images with `statsByDimensionsSync`", t => {
   const result = md
-  .use(markdownItEleventyImg, {
-    imgOptions: {
-      dryRun: true
-    },
-    renderImage(image, attributes) {
-      const [ Image, options ] = image;
-      const [ src, attrs ] = attributes;
+    .use(markdownItEleventyImg, {
+      imgOptions: {
+        dryRun: true
+      },
+      renderImage(image, attributes) {
+        const [ Image, options ] = image;
+        const [ src, attrs ] = attributes;
 
-      Image(src, options);
+        Image(src, options);
 
-      const metadata = Image.statsByDimensionsSync(src, 1800, 1800, options);
-      const imageMarkup = Image.generateHTML(metadata, attrs, {
-        whitespaceMode: "inline"
-      });
+        const metadata = Image.statsByDimensionsSync(src, 1800, 1800, options);
+        const imageMarkup = Image.generateHTML(metadata, attrs, {
+          whitespaceMode: "inline"
+        });
 
-      return imageMarkup;
-    }
-  })
-  .render(remoteImage);
+        return imageMarkup;
+      }
+    }).render(remoteImage);
 
   t.is(result, '<p><picture><source type="image/webp" srcset="/img/AxQcZ32Em8-1800.webp 1800w"><img alt="" src="/img/AxQcZ32Em8-1800.jpeg" width="1800" height="1800"></picture></p>\n');
 });
 
 test.serial("markdown-it-implicit-figures with options (dryrun)", t => {
   const result = md
-  .use(implicitFigures, {
-    dataType: true,
-    figcaption: true,
-    tabindex: true,
-    link: true
-  })
-  .use(markdownItEleventyImg, {
-    imgOptions: {
-      dryRun: true
-    }
-  })
-  .render(imageDiplomees2021);
+    .use(implicitFigures, {
+      dataType: true,
+      figcaption: true,
+      tabindex: true,
+      link: true
+    })
+    .use(markdownItEleventyImg, {
+      imgOptions: {
+        dryRun: true
+      }
+    }).render(imageDiplomees2021);
 
   t.is(result, '<figure data-type="image" tabindex="1"><a href="./assets/images/diplomees2021.jpg"><picture><source type="image/webp" srcset="/img/pRWAdktn3m-2048.webp 2048w"><img alt="Alt diplomees2021" title="Title diplomees2021" src="/img/pRWAdktn3m-2048.jpeg" width="2048" height="1463"></picture></a><figcaption>Alt diplomees2021</figcaption></figure>\n');
 });
 
-test.after("cleanup", t => {
+test.after("cleanup", () => {
   const imgDir = "img";
 
   if(fs.existsSync(imgDir)) {
