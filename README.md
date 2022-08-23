@@ -103,11 +103,13 @@ With these options, the image `![Image alt](./img/my-image.jpg "Title text!")`, 
 ```html
 <p><picture><source type="image/avif" srcset="/images/wtdfPs-yjZ-300.avif 300w, /images/wtdfPs-yjZ-500.avif 500w, /images/wtdfPs-yjZ-800.avif 800w" sizes="100vw"><source type="image/webp" srcset="/images/wtdfPs-yjZ-300.webp 300w, /images/wtdfPs-yjZ-500.webp 500w, /images/wtdfPs-yjZ-800.webp 800w" sizes="100vw"><source type="image/jpeg" srcset="/images/wtdfPs-yjZ-300.jpeg 300w, /images/wtdfPs-yjZ-500.jpeg 500w, /images/wtdfPs-yjZ-800.jpeg 800w" sizes="100vw"><img alt="Image alt" title="Title text!" class="markdown-image" decoding="async" src="/images/wtdfPs-yjZ-300.jpeg" width="800" height="571"></picture></p>
 ```
-The `alt`, the `src`, and the optional `title` attributes are taken from the markdown token: `![alt](./source.ext "Title")`. 
+The `alt`, the `src`, and the `title` attributes are taken from the markdown token: `![alt](./source.ext "Title")`. 
 
-Setting `alt`, `src` or `title` properties in `globalAttributes` will have no effect on the markdown image output. These attributes have to be set on the markdown image token instead.
+Setting `alt` or `src` properties in `globalAttributes` will have no effect on the markdown image output. These attributes have to be set on the markdown image token instead.
 
-A warning will be logged in the console if any of these properties are set in `globalAttributes`.
+A warning will be logged in the console if these properties are set in `globalAttributes`.
+
+The `title` property can be set in `globalAttributes`, but there's probably little insentive to do so. Attributes set on the token will always override global attributes.
 
 ## Custom image rendering
 
