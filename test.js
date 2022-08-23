@@ -198,7 +198,7 @@ test("generate-attrs-object", t => {
 });
 
 test("generate-attrs-object (trimmed and lower case result)", t => {
-  const tokenArray = { attrs: [[" SRC", "my/src/"], ["Alt", "This alt test"]] };
+  const tokenArray = { attrs: [[" SRC", "my/src/"], ["Alt   ", "This alt test"]] };
 
   const output = generateAttrsObject(tokenArray).attrs;
 
