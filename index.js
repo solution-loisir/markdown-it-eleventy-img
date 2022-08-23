@@ -3,6 +3,7 @@ const logWarningFor = require("./utilities/warnings");
 const { remove } = require("./utilities/remove-key-from");
 const generateAttrsObject = require("./utilities/generate-attrs-object");
 const { typeObjectError, typeFunctionError } = require("./utilities/errors");
+const { propertiesFrom } = require("./utilities/lower-case-trim-object");
 
 
 module.exports = function markdownItEleventyImg(md, {
@@ -14,7 +15,9 @@ module.exports = function markdownItEleventyImg(md, {
   typeObjectError(globalAttributes, "globalAttributes");
   typeFunctionError(renderImage, "renderImage");
 
-  logWarningFor(globalAttributes);
+  const normalizedGlobalAttributes = propertiesFrom(globalAttributes).lowerCased().trimmed().object();
+
+  logWarningFor(normalizedGlobalAttributes);
 
   md.renderer.rules.image  = (tokens, index, rendererOptions, env, renderer) => {
 
@@ -26,7 +29,7 @@ module.exports = function markdownItEleventyImg(md, {
 
     const tokenAttributesWithoutSrc = remove("src").from(tokenAttributes);
 
-    const imageAttributes = { ...globalAttributes, ...tokenAttributesWithoutSrc };
+    const imageAttributes = { ...normalizedGlobalAttributes, ...tokenAttributesWithoutSrc };
 
     if(renderImage) {
       const image = [ Image, imgOptions ];

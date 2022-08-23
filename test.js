@@ -88,20 +88,20 @@ test.serial("Title in globalAttributes is overriden by token title", t => {
       dryRun: true
     },
     globalAttributes: {
-      "title": "Global title"
+      "  Title": "Global title"
     }
   }).render(imageDiplomees2021);
 
   t.is(result, '<p><picture><source type="image/webp" srcset="/img/pRWAdktn3m-2048.webp 2048w"><img title="Title diplomees2021" alt="Alt diplomees2021" src="/img/pRWAdktn3m-2048.jpeg" width="2048" height="1463"></picture></p>\n');
 });
 
-test.serial("Title in globalAttributes overrides token with empty title", t => {
+test.serial("Title in globalAttributes is passed on token with empty title", t => {
   const result = md.use(markdownItEleventyImg, {
     imgOptions: {
       dryRun: true
     },
     globalAttributes: {
-      "title": ""
+      "TITLE": ""
     }
   }).render(imgWithEmptyTitle);
 
