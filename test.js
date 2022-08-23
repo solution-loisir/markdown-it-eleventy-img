@@ -128,14 +128,6 @@ test("Log warning for alt", t => {
   t.is(logWarningFor(globalAttributes), "Markdown-it-eleventy-img WARNING: Setting `alt` in `globalAttributes` will have no effect on the markdown image output. The `alt` attribute has to be set on the markdown image token.");
 });
 
-test("Log warning for title", t => {
-  const globalAttributes = {
-    title: ""
-  };
-
-  t.is(logWarningFor(globalAttributes), "Markdown-it-eleventy-img WARNING: Setting `title` in `globalAttributes` will have no effect on the markdown image output. The `title` attribute has to be set on the markdown image token.");
-});
-
 test("Log warning for src", t => {
   const globalAttributes = {
     src: ""
