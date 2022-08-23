@@ -6,6 +6,7 @@ const markdownItEleventyImg = require("./");
 const logWarningFor = require("./utilities/warnings");
 const generateAttrsObject = require("./utilities/generate-attrs-object");
 const { remove } = require("./utilities/remove-key-from");
+const { propertiesFrom } = require("./utilities/lower-case-trim-object");
 const fs = require("fs");
 const path = require("path");
 const Eleventy = require("@11ty/eleventy");
@@ -220,6 +221,21 @@ test("remove-key-from", t => {
   t.deepEqual(tokenAttributesWithoutSrc, {
     alt: "Alt diplomees2021",
     title: "Title diplomees2021"
+  });
+});
+
+test("propertiesFrom", t => {
+  const testObject = {
+    " SRC  ": "my/source/img.jpg",
+    "   Title ": "My title"
+  };
+
+  const result = propertiesFrom(testObject).lowerCased().trimmed().object();
+  console.log(result);
+
+  t.deepEqual(result, {
+    src: "my/source/img.jpg",
+    title: "My title"
   });
 });
 
