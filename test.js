@@ -231,7 +231,6 @@ test("propertiesFrom", t => {
   };
 
   const result = propertiesFrom(testObject).lowerCased().trimmed().object();
-  console.log(result);
 
   t.deepEqual(result, {
     src: "my/source/img.jpg",
