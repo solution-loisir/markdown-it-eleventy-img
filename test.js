@@ -197,6 +197,17 @@ test("generate-attrs-object", t => {
   });
 });
 
+test("generate-attrs-object (trimmed and lower case result)", t => {
+  const tokenArray = { attrs: [[" SRC", "my/src/"], ["Alt", "This alt test"]] };
+
+  const output = generateAttrsObject(tokenArray).attrs;
+
+  t.deepEqual(output, {
+    "src": "my/src/",
+    "alt": "This alt test"
+  });
+});
+
 test("remove-key-from", t => {
   const tokenAttributes = {
     src: "./assets/images/diplomees2021.jpg",
