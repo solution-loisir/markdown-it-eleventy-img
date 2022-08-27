@@ -23,13 +23,13 @@ module.exports = function markdownItEleventyImg(md, {
 
     const token = tokens[index];
 
-    const tokenAttributes = generateAttrsObject(token).addContentTo("alt").attrs;
+    const normalizedTokenAttributes = generateAttrsObject(token).addContentTo("alt").attrs;
 
-    const src = tokenAttributes.src;
+    const src = normalizedTokenAttributes.src;
 
-    const tokenAttributesWithoutSrc = remove("src").from(tokenAttributes);
+    const normalizedTokenAttributesWithoutSrc = remove("src").from(normalizedTokenAttributes);
 
-    const imageAttributes = { ...normalizedGlobalAttributes, ...tokenAttributesWithoutSrc };
+    const imageAttributes = { ...normalizedGlobalAttributes, ...normalizedTokenAttributesWithoutSrc };
 
     if(renderImage) {
       const image = [ Image, imgOptions ];
@@ -38,7 +38,7 @@ module.exports = function markdownItEleventyImg(md, {
     }
 
     if(Image.Util.isRemoteUrl(src)) {
-      token.attrs[token.attrIndex('alt')][1] = tokenAttributes.alt;
+      token.attrs[token.attrIndex("alt")][1] = token.content;
       return renderer.renderToken(tokens, index, rendererOptions);
     }
     
