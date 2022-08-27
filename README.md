@@ -1,5 +1,5 @@
 # markdown-it-eleventy-img
-A [markdown-it](https://github.com/markdown-it/markdown-it) plugin that process images through the [eleventy-img](https://github.com/11ty/eleventy-img) plugin. Can be used in any projects that use markdown-it. Fully compatible with the [Eleventy](https://www.11ty.dev/) static site generator.
+A [markdown-it](https://github.com/markdown-it/markdown-it) plugin that processes images through the [eleventy-img](https://github.com/11ty/eleventy-img) plugin. Can be used in any projects that use markdown-it. Fully compatible with the [Eleventy](https://www.11ty.dev/) static site generator.
 
 [![NPM version badge.](https://img.shields.io/npm/v/markdown-it-eleventy-img)](https://github.com/solution-loisir/markdown-it-eleventy-img/releases)
 [![GitHub issues badge.](https://img.shields.io/github/issues/solution-loisir/markdown-it-eleventy-img)](https://github.com/solution-loisir/markdown-it-eleventy-img/issues)
@@ -9,7 +9,7 @@ A [markdown-it](https://github.com/markdown-it/markdown-it) plugin that process 
 
 This is pre-release software. There might still be API changes. I'm pretty much developing this plugin in the open and I'm learning buckets! 
 
-Use at your own risk, but feel free to get in touch if you have questions, a comment or want to talk about your experience as a user.
+**Use at your own risk**, but feel free to get in touch if you have questions, a comment or want to talk about your experience as a user.
 
 ## Requirements
 
@@ -45,7 +45,7 @@ module.exports = function(config) {
   .use(markdownItEleventyImg);
 }
 ```
-Using markdown-it-eleventy-img without options will utilize eleventy-img [default options](https://www.11ty.dev/docs/plugins/image/#usage) which are:
+Using markdown-it-eleventy-img without options will run eleventy-img with [default options](https://www.11ty.dev/docs/plugins/image/#usage) which are:
 
 * `widths: [null]`
 * `formats: ["webp", "jpeg"]`
@@ -67,7 +67,7 @@ Will output:
 ```
 By default, images are rendered using the `generateHTML` function from the eleventy-img plugin with the `whitespaceMode` "to strip the whitespace from the output of the `<picture>` element (a must-have for use in markdown files)" ([reference](https://www.11ty.dev/docs/plugins/image/#use-this-in-your-templates)).
 
-You can add an options object to override eleventy-img defaults and attributes.
+You can add an options object to override eleventy-img defaults, add global attributes or provide your own custom rendering.
 
 ## Using options
 
@@ -98,7 +98,7 @@ Here's an exemple of using the options object (without `renderImage`):
   }
 });
 ```
-With these options, the image `![Image alt](./img/my-image.jpg "Title text!")`, would be rendered as:
+With these options, the image `![Image alt](./img/my-image.jpg "Title text!")`, will be rendered as:
 
 ```html
 <p><picture><source type="image/avif" srcset="/images/wtdfPs-yjZ-300.avif 300w, /images/wtdfPs-yjZ-500.avif 500w, /images/wtdfPs-yjZ-800.avif 800w" sizes="100vw"><source type="image/webp" srcset="/images/wtdfPs-yjZ-300.webp 300w, /images/wtdfPs-yjZ-500.webp 500w, /images/wtdfPs-yjZ-800.webp 800w" sizes="100vw"><source type="image/jpeg" srcset="/images/wtdfPs-yjZ-300.jpeg 300w, /images/wtdfPs-yjZ-500.jpeg 500w, /images/wtdfPs-yjZ-800.jpeg 800w" sizes="100vw"><img alt="Image alt" title="Title text!" class="markdown-image" decoding="async" src="/images/wtdfPs-yjZ-300.jpeg" width="800" height="571"></picture></p>
@@ -187,7 +187,7 @@ To process remote images, use code where the eleventy-img [async API](https://ww
 
 markdown-it-eleventy-img tries to follow as much as possible the [markdown philosophy](https://daringfireball.net/projects/markdown/syntax#philosophy). The idea is to keep simplicity while generating responsive image format in markdown. With markdown-it-eleventy-img, you author images in markdown the same way as usual.
 
-Also, the aim is to stay coherent with [eleventy-img](https://www.11ty.dev/docs/plugins/image/) defaults while allowing users to use the full feature set (almost). So if your familiar with the eleventy-img plugin, there should be no surprises. 
+Also, the aim is to stay coherent with [eleventy-img](https://www.11ty.dev/docs/plugins/image/) defaults while allowing users to use the full feature set. So if your familiar with the eleventy-img plugin, there should be no surprises. 
 
 markdown-it-eleventy-img is not a replacement for an Eleventy [shortcode](https://www.11ty.dev/docs/shortcodes/). Shortcodes will give more power and control. On the other hand, markdown will trade control for easiness of reading and writing. 
 
