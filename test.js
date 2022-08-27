@@ -1,6 +1,6 @@
 const test = require("ava");
 const md = require("markdown-it")();
-const markdownItAttrs = require('markdown-it-attrs');
+const markdownItAttrs = require("markdown-it-attrs");
 const implicitFigures = require("markdown-it-implicit-figures");
 const markdownItEleventyImg = require("./");
 const logWarningFor = require("./utilities/warnings");
@@ -14,7 +14,7 @@ const eleventyInput = "test-eleventy";
 const eleventyOutput = "_site";
 const imageDiplomees2021 = '![Alt diplomees2021](./assets/images/diplomees2021.jpg "Title diplomees2021")';
 const imagemarkdownItAttrs = '![Alt diplomees2021](./assets/images/diplomees2021.jpg "Title diplomees2021"){loading=lazy}';
-const imgWithoutTitle = '![Alt diplomees2021](./assets/images/diplomees2021.jpg)';
+const imgWithoutTitle = "![Alt diplomees2021](./assets/images/diplomees2021.jpg)";
 const imgWithEmptyTitle = '![Alt diplomees2021](./assets/images/diplomees2021.jpg "")';
 const remoteSrc = "https://apod.nasa.gov/apod/image/2208/StargateMilkyWay_Oudoux_1800.jpg";
 const remoteSrc_1 = "https://www.nasa.gov/sites/default/files/thumbnails/image/web_first_images_release.png";
@@ -24,7 +24,7 @@ const remoteImageAlt = `![My cool space pic](${remoteSrc})`;
 const remoteImageAltAndTitle = `![My cool space pic](${remoteSrc} "Remote title")`;
 const multipleRemoteImages = `![First alt](${remoteSrc} "First title")\n![Second alt](${remoteSrc_1} "Second title")\n![Third alt](${remoteSrc_2} "Third title")`;
 const multipleLocalImages = `${imageDiplomees2021}\n![Alt sejour](./assets/images/sejour-plein-air.jpg "Title sejour")`;
-const markdownItAttrsWidthAndHeight = '![](./assets/images/diplomees2021.jpg){width=200 height=100}';
+const markdownItAttrsWidthAndHeight = "![](./assets/images/diplomees2021.jpg){width=200 height=100}";
 
 test("Not passing global width and height to local images", t => {
   const result = md.use(markdownItEleventyImg, {
