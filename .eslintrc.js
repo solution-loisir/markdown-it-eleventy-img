@@ -1,5 +1,5 @@
 module.exports = {
-  env: {
+  env: {  
     es6: true,
     node: true
   },
@@ -12,6 +12,7 @@ module.exports = {
     indent: ["error", 2, { "SwitchCase": 1 }],
     "linebreak-style": ["error", "unix"],
     semi: ["error", "always"],
-    "no-unused-vars": ["warn"]
+    "no-unused-vars": ["warn"],
+    quotes: ["error", "double", { "avoidEscape": true }]
   }
 }
