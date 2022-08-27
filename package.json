@@ -1,7 +1,7 @@
 {
   "name": "markdown-it-eleventy-img",
   "description": "A markdown-it plugin that processes images through the eleventy-img plugin. Can be used in any projects that use markdown-it. Fully compatible with the Eleventy static site generator.",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "main": "index.js",
   "publishConfig": {
     "access": "public"
