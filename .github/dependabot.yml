@@ -8,3 +8,4 @@ updates:
       interval: "weekly"
     ignore:
       - dependency-name: "markdown-it"
+    versioning-strategy: increase
