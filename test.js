@@ -365,15 +365,15 @@ test.serial("markdownItEleventyImg with Eleventy (default no-config)", async t =
 
 test.serial("Image in same directory with config file (throws)", async t => {
   t.throws(() => {
-    new Eleventy("test-eleventy-local-image", eleventyOutput, {
-      configPath: ".eleventy.test.js"
+    new Eleventy("test-eleventy-same-folder-image", eleventyOutput, {
+      configPath: ".eleventy-test.js"
     });
   });
 });
 
 test.serial("Image in same directory without config file (not throws)", async t => {
   t.notThrows(() => {
-    new Eleventy("test-eleventy-local-image", eleventyOutput, {
+    new Eleventy("test-eleventy-same-folder-image", eleventyOutput, {
       config(config) {
         config.setLibrary("md", md.use(markdownItEleventyImg, {
           imgOptions: {
