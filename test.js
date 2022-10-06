@@ -363,7 +363,15 @@ test.serial("markdownItEleventyImg with Eleventy (default no-config)", async t =
   t.is(json[0].content, '<p><picture><source type="image/webp" srcset="/img/pRWAdktn3m-2048.webp 2048w"><img alt="Alt diplomees2021" title="Title diplomees2021" src="/img/pRWAdktn3m-2048.jpeg" width="2048" height="1463"></picture></p>\n');
 });
 
-test.serial("mardownItEleventyImg with Eleventy image in same directory (dryrun)", async t => {
+test.serial("Image in same directory with config file (throws)", async t => {
+  t.throws(() => {
+    new Eleventy("test-eleventy-local-image", eleventyOutput, {
+      configPath: ".eleventy.test.js"
+    });
+  });
+});
+
+test.serial("Image in same directory without config file (not throws)", async t => {
   t.notThrows(() => {
     new Eleventy("test-eleventy-local-image", eleventyOutput, {
       config(config) {
