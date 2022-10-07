@@ -5,6 +5,9 @@ const generateAttrsObject = require("./utilities/generate-attrs-object");
 const { typeObjectError, typeFunctionError } = require("./utilities/errors");
 const { propertiesFrom } = require("./utilities/lower-case-trim-object");
 
+const fs = require("fs");
+const path = require("path");
+
 
 module.exports = function markdownItEleventyImg(md, {
   imgOptions = {},
@@ -25,7 +28,7 @@ module.exports = function markdownItEleventyImg(md, {
 
     const normalizedTokenAttributes = generateAttrsObject(token).addContentTo("alt").attrs;
 
-    const src = normalizedTokenAttributes.src;
+    const src = (fs.existsSync(normalizedTokenAttributes.src) || Image.Util.isRemoteUrl(normalizedTokenAttributes.src)) ? normalizedTokenAttributes.src : path.join(path.dirname(env.page.inputPath), normalizedTokenAttributes.src);
 
     const normalizedTokenAttributesWithoutSrc = remove("src").from(normalizedTokenAttributes);
 
