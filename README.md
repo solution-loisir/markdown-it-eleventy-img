@@ -78,6 +78,9 @@ Overrides eleventy-img specific options.
 Adds attributes to the image output.
 * `renderImage` (function).
 Lets you render custom markup and do almost everything you like with your markdown images (see [Custom image rendering](#custom-image-rendering)).
+* `eleventyResolveToProjectRoot` (boolean)
+
+If set to false, will check for image in directory relative to the file where the image is referenced. Defaults to true.
 
 Here's an exemple of using the options object (without `renderImage`):
 
