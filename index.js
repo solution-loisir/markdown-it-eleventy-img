@@ -35,9 +35,9 @@ module.exports = function markdownItEleventyImg(md, {
 
     const normalizedTokenAttributes = generateAttrsObject(token).addContentTo("alt").attrs;
 
-    const src = normalizedTokenAttributes.src;
-    if(Image.Util.isRemoteUrl(normalizedTokenAttributes.src) && eleventyResolveToProjectRoot == false) {
-      path.join(path.dirname(env.page.inputPath), normalizedTokenAttributes.src);
+    let src = normalizedTokenAttributes.src;
+    if(!Image.Util.isRemoteUrl(normalizedTokenAttributes.src) && eleventyResolveToProjectRoot == false) {
+      src = path.join(path.dirname(env.page.inputPath), normalizedTokenAttributes.src);
     }
 
     const normalizedTokenAttributesWithoutSrc = remove("src").from(normalizedTokenAttributes);
