@@ -5,22 +5,21 @@ const generateAttrsObject = require("./utilities/generate-attrs-object");
 const { typeObjectError, typeFunctionError } = require("./utilities/errors");
 const { propertiesFrom } = require("./utilities/lower-case-trim-object");
 
-const path = require("path");
-
 /**
  * 
  * @param {MarkdownIt} md The markdown-it object
  * @param {*} imgOptions Overrides eleventy-img specific options.
  * @param {*} globalAttributes Adds attributes to the image output.
  * @param {Function} renderImage Lets you render custom markup and do almost everything you like with your markdown images.
- * @param {boolean} eleventyResolveToProjectRoot If set to false, will check for images in directory relative to the file where the image is reference. Defaults to true.
+ * @param {Function} resolvePath Function that will be used to resolve paths for images in markdown. Receives image path string and env as parameters. Default resolves to CWD.
  */
 module.exports = function markdownItEleventyImg(md, {
   imgOptions = {},
   globalAttributes = {},
   renderImage,
-  eleventyResolveToProjectRoot = true
+  resolvePath
 } = {}) {
+
   typeObjectError(imgOptions, "imgOptions");
   typeObjectError(globalAttributes, "globalAttributes");
   typeFunctionError(renderImage, "renderImage");
@@ -35,10 +34,7 @@ module.exports = function markdownItEleventyImg(md, {
 
     const normalizedTokenAttributes = generateAttrsObject(token).addContentTo("alt").attrs;
 
-    let src = normalizedTokenAttributes.src;
-    if(!Image.Util.isRemoteUrl(normalizedTokenAttributes.src) && eleventyResolveToProjectRoot == false) {
-      src = path.join(path.dirname(env.page.inputPath), normalizedTokenAttributes.src);
-    }
+    const src = (resolvePath) ? resolvePath(normalizedTokenAttributes.src, env) : normalizedTokenAttributes.src;
 
     const normalizedTokenAttributesWithoutSrc = remove("src").from(normalizedTokenAttributes);
 

@@ -364,11 +364,23 @@ test.serial("markdownItEleventyImg with Eleventy (default no-config)", async t =
   t.is(json[0].content, '<p><picture><source type="image/webp" srcset="/img/pRWAdktn3m-2048.webp 2048w"><img alt="Alt diplomees2021" title="Title diplomees2021" src="/img/pRWAdktn3m-2048.jpeg" width="2048" height="1463"></picture></p>\n');
 });
 
-test.serial("markdownItEleventyImg with Eleventy using relative images", async t => {
+test.serial("markdownItEleventyImg with Eleventy using custom image path resolution for relative images.", async t => {
+  const relativeImageResolve = (filepath, env) => {
+    let resolvedPath = filepath;
+    
+    // if path is remote, just return path
+    const isRemoteRegExp = /^https?:\/\//i;
+    if(typeof filepath === "string" && !isRemoteRegExp.test(filepath)) {
+      resolvedPath = path.join(path.dirname(env.page.inputPath), filepath);
+    }
+
+    return resolvedPath;
+  };
+
   let elev = new Eleventy(eleventyInputRelative, eleventyOutput, {
     config(config) {
       config.setLibrary("md", md.use(markdownItEleventyImg, {
-        eleventyResolveToProjectRoot: false
+        resolvePath: relativeImageResolve
       }));
     }
   });
