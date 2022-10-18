@@ -10,7 +10,8 @@ const { propertiesFrom } = require("./utilities/lower-case-trim-object");
 const fs = require("fs");
 const path = require("path");
 const Eleventy = require("@11ty/eleventy");
-const eleventyInput = "test-eleventy";
+const eleventyInput = "test-eleventy/default";
+const eleventyInputRelative = "test-eleventy/relative-image";
 const eleventyOutput = "_site";
 const imageDiplomees2021 = '![Alt diplomees2021](./assets/images/diplomees2021.jpg "Title diplomees2021")';
 const imagemarkdownItAttrs = '![Alt diplomees2021](./assets/images/diplomees2021.jpg "Title diplomees2021"){loading=lazy}';
@@ -356,6 +357,31 @@ test.serial("markdownItEleventyImg with Eleventy (default no-config)", async t =
   let elev = new Eleventy(eleventyInput, eleventyOutput, {
     config(config) {
       config.setLibrary("md", md.use(markdownItEleventyImg));
+    }
+  });
+  let json = await elev.toJSON();
+  
+  t.is(json[0].content, '<p><picture><source type="image/webp" srcset="/img/pRWAdktn3m-2048.webp 2048w"><img alt="Alt diplomees2021" title="Title diplomees2021" src="/img/pRWAdktn3m-2048.jpeg" width="2048" height="1463"></picture></p>\n');
+});
+
+test.serial("markdownItEleventyImg with Eleventy using custom image path resolution for relative images.", async t => {
+  const relativeImageResolve = (filepath, env) => {
+    let resolvedPath = filepath;
+    
+    // if path is remote, just return path
+    const isRemoteRegExp = /^https?:\/\//i;
+    if(typeof filepath === "string" && !isRemoteRegExp.test(filepath)) {
+      resolvedPath = path.join(path.dirname(env.page.inputPath), filepath);
+    }
+
+    return resolvedPath;
+  };
+
+  let elev = new Eleventy(eleventyInputRelative, eleventyOutput, {
+    config(config) {
+      config.setLibrary("md", md.use(markdownItEleventyImg, {
+        resolvePath: relativeImageResolve
+      }));
     }
   });
   let json = await elev.toJSON();
