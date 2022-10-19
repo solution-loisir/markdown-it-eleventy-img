@@ -13,6 +13,7 @@ const { propertiesFrom } = require("./utilities/lower-case-trim-object");
  * @param {Function} renderImage Lets you render custom markup and do almost everything you like with your markdown images.
  * @param {Function} resolvePath Function that will be used to resolve paths for images in markdown. Receives image path string and env as parameters. Default resolves to CWD.
  */
+
 module.exports = function markdownItEleventyImg(md, {
   imgOptions = {},
   globalAttributes = {},
@@ -23,6 +24,7 @@ module.exports = function markdownItEleventyImg(md, {
   typeObjectError(imgOptions, "imgOptions");
   typeObjectError(globalAttributes, "globalAttributes");
   typeFunctionError(renderImage, "renderImage");
+  typeFunctionError(resolvePath, "resolvePath");
 
   const normalizedGlobalAttributes = propertiesFrom(globalAttributes).lowerCased().trimmed().object();
 
@@ -31,6 +33,12 @@ module.exports = function markdownItEleventyImg(md, {
   md.renderer.rules.image  = (tokens, index, rendererOptions, env, renderer) => {
 
     const token = tokens[index];
+
+    // Passing remote sources through Markdown-it default renderer.
+    if(Image.Util.isRemoteUrl(token.attrGet("src"))) {
+      token.attrs[token.attrIndex("alt")][1] = token.content;
+      return renderer.renderToken(tokens, index, rendererOptions);
+    }
 
     const normalizedTokenAttributes = generateAttrsObject(token).addContentTo("alt").attrs;
 
@@ -44,11 +52,6 @@ module.exports = function markdownItEleventyImg(md, {
       const image = [ Image, imgOptions ];
       const attributes = [ src, imageAttributes ];
       return renderImage(image, attributes);
-    }
-
-    if(Image.Util.isRemoteUrl(src)) {
-      token.attrs[token.attrIndex("alt")][1] = token.content;
-      return renderer.renderToken(tokens, index, rendererOptions);
     }
     
     Image(src, imgOptions);
