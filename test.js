@@ -178,6 +178,22 @@ test("typeObjectError for imgOptions (undefined not throwing)", t => {
   });
 });
 
+test("typeFunctionError for `resolvePath` (string throwing)", t => {
+  t.throws(() => {
+    md.use(markdownItEleventyImg, {
+      resolvePath: "string"
+    });
+  });
+});
+
+test("typeFunctionError for `renderImage` (string throwing)", t => {
+  t.throws(() => {
+    md.use(markdownItEleventyImg, {
+      renderImage: "string"
+    });
+  });
+});
+
 test("generate-attrs-object", t => {
   const tokens = md.parseInline(imageDiplomees2021);
   const token = tokens[0].children[0];
@@ -365,28 +381,24 @@ test.serial("markdownItEleventyImg with Eleventy (default no-config)", async t =
 });
 
 test.serial("markdownItEleventyImg with Eleventy using custom image path resolution for relative images.", async t => {
-  const relativeImageResolve = (filepath, env) => {
-    let resolvedPath = filepath;
-    
-    // if path is remote, just return path
-    const isRemoteRegExp = /^https?:\/\//i;
-    if(typeof filepath === "string" && !isRemoteRegExp.test(filepath)) {
-      resolvedPath = path.join(path.dirname(env.page.inputPath), filepath);
-    }
-
-    return resolvedPath;
-  };
-
   let elev = new Eleventy(eleventyInputRelative, eleventyOutput, {
     config(config) {
       config.setLibrary("md", md.use(markdownItEleventyImg, {
-        resolvePath: relativeImageResolve
+        resolvePath: (filepath, env) => path.join(path.dirname(env.page.inputPath), filepath)
       }));
     }
   });
   let json = await elev.toJSON();
   
   t.is(json[0].content, '<p><picture><source type="image/webp" srcset="/img/pRWAdktn3m-2048.webp 2048w"><img alt="Alt diplomees2021" title="Title diplomees2021" src="/img/pRWAdktn3m-2048.jpeg" width="2048" height="1463"></picture></p>\n');
+});
+
+test.serial("markdownItEleventyImg with Eleventy using using `resolvePath` with remote images.", async t => {
+  const result = md.use(markdownItEleventyImg, {
+    resolvePath: (filepath, env) => path.join(path.dirname(env.page.inputPath), filepath)
+  }).render(remoteImage);
+  
+  t.is(result, '<p><img src="https://apod.nasa.gov/apod/image/2208/StargateMilkyWay_Oudoux_1800.jpg" alt=""></p>\n');
 });
 
 test.serial("markdownItEleventyImg with Eleventy with imgOptions and globalAttributes (dryrun)", async t => {
@@ -503,30 +515,6 @@ test.serial("Remote images properly pass through alt and title on multiple image
   t.is(result, '<p><img src="https://apod.nasa.gov/apod/image/2208/StargateMilkyWay_Oudoux_1800.jpg" alt="First alt" title="First title">\n' +
   '<img src="https://www.nasa.gov/sites/default/files/thumbnails/image/web_first_images_release.png" alt="Second alt" title="Second title">\n' +
   '<img src="https://www.nasa.gov/sites/default/files/thumbnails/image/main_image_deep_field_smacs0723-5mb.jpg" alt="Third alt" title="Third title"></p>\n');
-});
-
-test.serial("Remote images with `statsByDimensionsSync`", t => {
-  const result = md
-    .use(markdownItEleventyImg, {
-      imgOptions: {
-        dryRun: true
-      },
-      renderImage(image, attributes) {
-        const [ Image, options ] = image;
-        const [ src, attrs ] = attributes;
-
-        Image(src, options);
-
-        const metadata = Image.statsByDimensionsSync(src, 1800, 1800, options);
-        const imageMarkup = Image.generateHTML(metadata, attrs, {
-          whitespaceMode: "inline"
-        });
-
-        return imageMarkup;
-      }
-    }).render(remoteImage);
-
-  t.is(result, '<p><picture><source type="image/webp" srcset="/img/AxQcZ32Em8-1800.webp 1800w"><img alt="" src="/img/AxQcZ32Em8-1800.jpeg" width="1800" height="1800"></picture></p>\n');
 });
 
 test.serial("markdown-it-implicit-figures with options (dryrun)", t => {
