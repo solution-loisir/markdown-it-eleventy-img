@@ -1,7 +1,7 @@
 # markdown-it-eleventy-img
 A [markdown-it](https://github.com/markdown-it/markdown-it) plugin that processes images through the [eleventy-img](https://github.com/11ty/eleventy-img) plugin. Can be used in any projects that use markdown-it. Fully compatible with the [Eleventy](https://www.11ty.dev/) static site generator.
 
-[![NPM version badge.](https://img.shields.io/npm/v/markdown-it-eleventy-img)](https://github.com/solution-loisir/markdown-it-eleventy-img/releases)
+[![NPM version badge.](https://img.shields.io/npm/v/markdown-it-eleventy-img)](https://www.npmjs.com/package/markdown-it-eleventy-img)
 [![GitHub issues badge.](https://img.shields.io/github/issues/solution-loisir/markdown-it-eleventy-img)](https://github.com/solution-loisir/markdown-it-eleventy-img/issues)
 [![NPM license badge.](https://img.shields.io/npm/l/markdown-it-eleventy-img)](https://github.com/solution-loisir/markdown-it-eleventy-img/blob/master/LICENSE)
 
@@ -71,18 +71,17 @@ You can add an options object to override eleventy-img defaults, add global attr
 
 ## Using options
 
-The options object may contain up to three properties: 
+The options object may contain these properties: 
 * `imgOptions` (object).
 Overrides eleventy-img specific options.
 * `globalAttributes` (object).
 Adds attributes to the image output.
 * `renderImage` (function).
 Lets you render custom markup and do almost everything you like with your markdown images (see [Custom image rendering](#custom-image-rendering)).
-* `eleventyResolveToProjectRoot` (boolean)
+* `resolvePath` (function).
+Lets you decide how you want to resolve paths for images. By default, `markdown-it-eleventy-img` will resolve path against project root (see [Resolving path](#resolving-path)).
 
-If set to false, will check for image in directory relative to the file where the image is referenced. Defaults to true.
-
-Here's an exemple of using the options object (without `renderImage`):
+Here's an exemple of using the options object:
 
 ```js
 .use(markdownItEleventyImg, {
@@ -175,6 +174,21 @@ Here's an exemple of adding a `<figure>` parent and an optional `<figcaption>`.
 });
 ```
 > Note that you have to use eleventy-img [synchronous API](https://www.11ty.dev/docs/plugins/image/#synchronous-shortcode) inside `renderImage`. Unfortunately, markdown-it plugins doesn't support async code (see [Limitations](#limitations)). It's good to know that even in the sync API, the images are generated asychronously. Got to 😍 11ty!
+
+## Resolving path
+By default, `markdown-it-eleventy-img` will resolve relative paths against current working directory (project root). Use `resolvePath` to configure how paths are resolved. Returned value: the source path.
+
+The `resolvePath` method takes two arguments:
+1. The image source from the token.
+2. The `env` parameter from the Markdown-it renderer.
+
+Here's an example of resolving path relative to the markdown file in Eleventy:
+```js
+config.setLibrary("md", md.use(markdownItEleventyImg, {
+  resolvePath: (filepath, env) => path.join(path.dirname(env.page.inputPath), filepath)
+}));
+```
+Since Eleventy is [passing its supplied data to `env`](https://github.com/11ty/eleventy/issues/1510#issuecomment-1046128400), this is possible. It may or may not be possible in other context. It was only tested with Eleventy.
 
 ## Use with markdown-it-attrs
 
