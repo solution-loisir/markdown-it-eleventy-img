@@ -18,7 +18,7 @@
     "ava": "^5.1.0",
     "eslint": "^8.29.0",
     "markdown-it": "^9.0.0",
-    "markdown-it-attrs": "^4.1.4",
+    "markdown-it-attrs": "^4.1.6",
     "markdown-it-implicit-figures": "^0.10.0"
   },
   "dependencies": {
