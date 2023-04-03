@@ -14,7 +14,7 @@
     "node": ">=14.15"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^1.0.2",
+    "@11ty/eleventy": "^2.0.1",
     "ava": "^5.2.0",
     "eslint": "^8.37.0",
     "markdown-it": "^9.0.0",
