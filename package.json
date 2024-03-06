@@ -11,7 +11,7 @@
     "check-updates": "npm outdated"
   },
   "engines": {
-    "node": ">=14.15"
+    "node": ">=18"
   },
   "devDependencies": {
     "@11ty/eleventy": "^2.0.1",
