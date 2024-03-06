@@ -335,7 +335,7 @@ test.serial("markdownItEleventyImg with markdown-it with imgOptions and globalAt
     }
   }).render(imageDiplomees2021);
 
-  t.is(result, '<p><picture><source type="image/avif" srcset="/images/pRWAdktn3m-300.avif 300w, /images/pRWAdktn3m-500.avif 500w, /images/pRWAdktn3m-800.avif 800w" sizes="100vw"><source type="image/webp" srcset="/images/pRWAdktn3m-300.webp 300w, /images/pRWAdktn3m-500.webp 500w, /images/pRWAdktn3m-800.webp 800w" sizes="100vw"><source type="image/jpeg" srcset="/images/pRWAdktn3m-300.jpeg 300w, /images/pRWAdktn3m-500.jpeg 500w, /images/pRWAdktn3m-800.jpeg 800w" sizes="100vw"><img class="markdown-image" decoding="async" alt="Alt diplomees2021" title="Title diplomees2021" src="/images/pRWAdktn3m-300.jpeg" width="800" height="571"></picture></p>\n');
+  t.is(result, '<p><picture><source type="image/avif" srcset="/images/pRWAdktn3m-300.avif 300w, /images/pRWAdktn3m-500.avif 500w, /images/pRWAdktn3m-800.avif 800w" sizes="100vw"><source type="image/webp" srcset="/images/pRWAdktn3m-300.webp 300w, /images/pRWAdktn3m-500.webp 500w, /images/pRWAdktn3m-800.webp 800w" sizes="100vw"><img class="markdown-image" decoding="async" alt="Alt diplomees2021" title="Title diplomees2021" src="/images/pRWAdktn3m-300.jpeg" width="800" height="571" srcset="/images/pRWAdktn3m-300.jpeg 300w, /images/pRWAdktn3m-500.jpeg 500w, /images/pRWAdktn3m-800.jpeg 800w" sizes="100vw"></picture></p>\n');
 });
 
 test.serial("markdownItEleventyImg with markdown-it with renderImage (dryrun)", t => {
@@ -422,7 +422,7 @@ test.serial("markdownItEleventyImg with Eleventy with imgOptions and globalAttri
   });
   let json = await elev.toJSON();
   
-  t.is(json[0].content, '<p><picture><source type="image/avif" srcset="/images/pRWAdktn3m-300.avif 300w, /images/pRWAdktn3m-500.avif 500w, /images/pRWAdktn3m-800.avif 800w" sizes="100vw"><source type="image/webp" srcset="/images/pRWAdktn3m-300.webp 300w, /images/pRWAdktn3m-500.webp 500w, /images/pRWAdktn3m-800.webp 800w" sizes="100vw"><source type="image/jpeg" srcset="/images/pRWAdktn3m-300.jpeg 300w, /images/pRWAdktn3m-500.jpeg 500w, /images/pRWAdktn3m-800.jpeg 800w" sizes="100vw"><img class="markdown-image" decoding="async" alt="Alt diplomees2021" title="Title diplomees2021" src="/images/pRWAdktn3m-300.jpeg" width="800" height="571"></picture></p>\n');
+  t.is(json[0].content, '<p><picture><source type="image/avif" srcset="/images/pRWAdktn3m-300.avif 300w, /images/pRWAdktn3m-500.avif 500w, /images/pRWAdktn3m-800.avif 800w" sizes="100vw"><source type="image/webp" srcset="/images/pRWAdktn3m-300.webp 300w, /images/pRWAdktn3m-500.webp 500w, /images/pRWAdktn3m-800.webp 800w" sizes="100vw"><img class="markdown-image" decoding="async" alt="Alt diplomees2021" title="Title diplomees2021" src="/images/pRWAdktn3m-300.jpeg" width="800" height="571" srcset="/images/pRWAdktn3m-300.jpeg 300w, /images/pRWAdktn3m-500.jpeg 500w, /images/pRWAdktn3m-800.jpeg 800w" sizes="100vw"></picture></p>\n');
 });
 
 test.serial("markdownItEleventyImg with Eleventy with renderImage (dryrun)", async t => {
