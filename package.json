@@ -1,7 +1,7 @@
 {
   "name": "markdown-it-eleventy-img",
   "description": "A markdown-it plugin that processes images through the eleventy-img plugin. Can be used in any projects that use markdown-it. Fully compatible with the Eleventy static site generator.",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "main": "index.js",
   "publishConfig": {
     "access": "public"
@@ -16,13 +16,14 @@
   "devDependencies": {
     "@11ty/eleventy": "^2.0.1",
     "ava": "^6.1.2",
-    "eslint": "^8.53.0",
+    "eslint": "^8.57.0",
     "markdown-it": "^9.0.0",
-    "markdown-it-attrs": "^4.1.4",
+    "markdown-it-attrs": "^4.1.6",
     "markdown-it-implicit-figures": "^0.12.0"
   },
   "dependencies": {
-    "@11ty/eleventy-img": "^4.0.1"
+    "@11ty/eleventy-img": "^4.0.2",
+    "sharp": "^0.33.2"
   },
   "peerDependencies": {
     "markdown-it": ">= 9.0.0"
