@@ -3,7 +3,7 @@ const md = require("markdown-it")();
 const markdownItAttrs = require("markdown-it-attrs");
 const implicitFigures = require("markdown-it-implicit-figures");
 const markdownItEleventyImg = require("./");
-const logWarningFor = require("./utilities/warnings");
+const { warnings } = require("./utilities/warnings");
 const generateAttrsObject = require("./utilities/generate-attrs-object");
 const { remove } = require("./utilities/remove-key-from");
 const { propertiesFrom } = require("./utilities/lower-case-trim-object");
@@ -127,7 +127,7 @@ test("Log warning for alt", t => {
     alt: ""
   };
 
-  t.is(logWarningFor(globalAttributes), "Markdown-it-eleventy-img WARNING: Setting `alt` in `globalAttributes` will have no effect on the markdown image output. The `alt` attribute has to be set on the markdown image token.");
+  t.is(warnings(globalAttributes), "Markdown-it-eleventy-img WARNING: Setting `alt` in `globalAttributes` will have no effect on the markdown image output. The `alt` attribute has to be set on the markdown image token.");
 });
 
 test("Log warning for src", t => {
@@ -135,7 +135,7 @@ test("Log warning for src", t => {
     src: ""
   };
 
-  t.is(logWarningFor(globalAttributes), "Markdown-it-eleventy-img WARNING: Setting `src` in `globalAttributes` will have no effect on the markdown image output. The `src` attribute has to be set on the markdown image token.");
+  t.is(warnings(globalAttributes), "Markdown-it-eleventy-img WARNING: Setting `src` in `globalAttributes` will have no effect on the markdown image output. The `src` attribute has to be set on the markdown image token.");
 });
 
 test("typeObjectError for imgOptions (string)", t => {

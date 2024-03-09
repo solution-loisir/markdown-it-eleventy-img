@@ -1,4 +1,4 @@
-module.exports = target => {
+const warnings = (target) => {
   let warning = "";
 
   Object.keys(target).forEach(property => {
@@ -12,4 +12,8 @@ module.exports = target => {
   });
 
   return warning;
+};
+
+module.exports = {
+  warnings
 };
