@@ -1,5 +1,5 @@
 const propertiesFrom = sourceObject => {
-  const _sourceKeys = Object.keys(sourceObject);
+  const _sourceValues = Object.values(sourceObject);
   let _keys = Object.keys(sourceObject);
 
   return {
@@ -13,7 +13,7 @@ const propertiesFrom = sourceObject => {
     },
     object() {
       return _keys.reduce((newObject, key, index) => {
-        newObject[key] = sourceObject[_sourceKeys[index]];
+        newObject[key] = _sourceValues[index];
         return newObject;
       }, {});
     }
