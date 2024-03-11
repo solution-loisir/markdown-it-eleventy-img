@@ -5,13 +5,21 @@ const generateAttrsObject = require("./utilities/generate-attrs-object");
 const { typeObjectError, typeFunctionError } = require("./utilities/errors");
 const { propertiesFrom } = require("./utilities/lower-case-trim-object");
 
+/** @typedef {require("types.js").ImageOptions} ImageOptions */
+/** @typedef {require("types.js").GlobalAttributes} GlobalAttributes */
+
 /**
- * 
- * @param {MarkdownIt} md The markdown-it object
- * @param {*} imgOptions Overrides eleventy-img specific options.
- * @param {*} globalAttributes Adds attributes to the image output.
- * @param {Function} renderImage Lets you render custom markup and do almost everything you like with your markdown images.
- * @param {Function} resolvePath Function that will be used to resolve paths for images in markdown. Receives image path string and env as parameters. Default resolves to CWD.
+ * @typedef markdownItEleventyImgOptions
+ * @property {ImageOptions} imgOptions Overrides eleventy-img specific options.
+ * @property {GlobalAttributes} globalAttributes Adds attributes to the image output.
+ * @property {Function} renderImage Lets you render custom markup and do almost everything you like with your markdown images.
+ * @property {Function} resolvePath Function that will be used to resolve paths for images in markdown. Receives image path string and env as parameters. Default resolves to CWD.
+ */
+
+/**
+ * @function markdownItEleventyImg
+ * @param {MarkdownIt} md The markdown-it object.
+ * @param {markdownItEleventyImgOptions} [markdownItEleventyImgOptions] Optional options object.
  */
 
 module.exports = function markdownItEleventyImg(md, {

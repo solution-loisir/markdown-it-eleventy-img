@@ -1,3 +1,11 @@
+/** @typedef {require("../types.js").GlobalAttributes} GlobalAttributes */
+
+/**
+ * Logs a warning in the console using `console.warn()`. Is triggered by the presence of `alt` or `src` property in the `target` object argument.
+ * @param {GlobalAttributes} target 
+ * @returns {string} The warning message.
+ */
+
 const warnings = (target) => {
   let warning = "";
 
