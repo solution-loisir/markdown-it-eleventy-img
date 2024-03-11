@@ -1,10 +1,10 @@
-/** @typedef {require("../types.js").TokenAttributes} TokenAttributes */
+/** @typedef {require("../types.js").TokenAttributesObject} TokenAttributesObject */
 
 /**
  * Removes matching property to `excludeValue` from a provided `source` obbject. Returns an object containing the `from` method which takes the `source` object as argument. If `excludeValue` does _not_ exist, it returns the `source` object. If `excludeValue` does exist, it returns a new object without `excludeValue`.
  * @param {string} excludeValue
  * @example remove("propname").from(sourceObj);
- * @returns {{ from(source: TokenAttributes): TokenAttributes }}
+ * @returns {{ from(source: TokenAttributesObject): TokenAttributesObject }}
  */
 
 const remove = (excludeValue) => ({

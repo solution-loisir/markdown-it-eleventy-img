@@ -1,4 +1,4 @@
-const propertiesFrom = sourceObject => {
+const propertiesFrom = (sourceObject) => {
   const _sourceValues = Object.values(sourceObject);
   let _keys = Object.keys(sourceObject);
 
