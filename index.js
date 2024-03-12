@@ -3,7 +3,7 @@ const { warnings } = require("./utilities/warnings");
 const { remove } = require("./utilities/remove-key-from");
 const generateAttrsObject = require("./utilities/generate-attrs-object");
 const { typeObjectError, typeFunctionError } = require("./utilities/errors");
-const { propertiesFrom } = require("./utilities/lower-case-trim-object");
+const { normalizingProperties } = require("./utilities/lower-case-trim-object");
 
 /** @typedef {require("type.js").markdownItEleventyImgOptions} markdownItEleventyImgOptions */
 /**
@@ -22,7 +22,7 @@ module.exports = function markdownItEleventyImg(md, {
   typeFunctionError(renderImage, "renderImage");
   typeFunctionError(resolvePath, "resolvePath");
 
-  const normalizedGlobalAttributes = propertiesFrom(globalAttributes).lowerCased().trimmed().object();
+  const normalizedGlobalAttributes = normalizingProperties(globalAttributes);
 
   warnings(normalizedGlobalAttributes);
 
