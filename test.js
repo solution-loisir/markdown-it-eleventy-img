@@ -6,7 +6,7 @@ const markdownItEleventyImg = require("./");
 const { warnings } = require("./utilities/warnings");
 const generateAttrsObject = require("./utilities/generate-attrs-object");
 const { remove } = require("./utilities/remove-key-from");
-const { propertiesFrom } = require("./utilities/lower-case-trim-object");
+const { normalizingProperties } = require("./utilities/lower-case-trim-object");
 const fs = require("fs");
 const path = require("path");
 const Eleventy = require("@11ty/eleventy");
@@ -241,13 +241,13 @@ test("remove-key-from", t => {
   });
 });
 
-test("propertiesFrom", t => {
+test("normalizingProperties", t => {
   const testObject = {
     " SRC  ": "my/source/img.jpg",
     "   Title ": "My title"
   };
 
-  const result = propertiesFrom(testObject).lowerCased().trimmed().object();
+  const result = normalizingProperties(testObject);
 
   t.deepEqual(result, {
     src: "my/source/img.jpg",
