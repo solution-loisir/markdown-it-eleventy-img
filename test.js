@@ -197,16 +197,8 @@ test("typeFunctionError for `renderImage` (string throwing)", t => {
 test("generate-attrs-object", t => {
   const tokens = md.parseInline(imageDiplomees2021);
   const token = tokens[0].children[0];
-  
-  const tokenAttributes = generateAttrsObject(token).attrs;
 
-  t.deepEqual(tokenAttributes, {
-    src: "./assets/images/diplomees2021.jpg",
-    alt: "",
-    title: "Title diplomees2021"
-  });
-
-  const tokenAttributesWithAlt = generateAttrsObject(token).addContentTo("alt").attrs;
+  const tokenAttributesWithAlt = generateAttrsObject(token);
 
   t.deepEqual(tokenAttributesWithAlt, {
     src: "./assets/images/diplomees2021.jpg",
@@ -216,9 +208,12 @@ test("generate-attrs-object", t => {
 });
 
 test("generate-attrs-object (trimmed and lower case result)", t => {
-  const tokenArray = { attrs: [[" SRC", "my/src/"], ["Alt   ", "This alt test"]] };
+  const tokenArray = { 
+    attrs: [[" SRC", "my/src/"], ["Alt   ", ""]], 
+    content: "This alt test"
+  };
 
-  const output = generateAttrsObject(tokenArray).attrs;
+  const output = generateAttrsObject(tokenArray);
 
   t.deepEqual(output, {
     "src": "my/src/",

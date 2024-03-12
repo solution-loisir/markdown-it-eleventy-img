@@ -47,7 +47,7 @@ module.exports = function markdownItEleventyImg(md, {
       return renderer.renderToken(tokens, index, rendererOptions);
     }
 
-    const normalizedTokenAttributes = generateAttrsObject(token).addContentTo("alt").attrs;
+    const normalizedTokenAttributes = generateAttrsObject(token);
 
     const src = (resolvePath) ? resolvePath(normalizedTokenAttributes.src, env) : normalizedTokenAttributes.src;
 

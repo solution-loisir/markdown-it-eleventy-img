@@ -1,18 +1,20 @@
-const generateAttrsObject = (token) => {
-  const tokenAttributes = token.attrs.reduce((acc, current) => {
+/** @typedef {require("../types.js").TokenAttributesObject} TokenAttributesObject */
+/**
+ * @param {MarkdownItToken} token The MarkdownIt token.
+ * @returns {TokenAttributesObject}
+ */
+function generateAttrsObject(token) {
+
+  let attrs = token.attrs.reduce((obj, current) => {
     const trimmedLowerCasedKey = current[0].toLowerCase().trim();
-    acc[trimmedLowerCasedKey] = current[1];
-    return acc;
+    obj[trimmedLowerCasedKey] = current[1];
+    return obj;
   }, {});
 
-  return {
-    attrs: tokenAttributes,
-    addContentTo(key = "") {
-      this.attrs[key] = token.content;
-      return this;
-    }
-  };
-};
+  attrs["alt"] = token.content;
+
+  return attrs;
+}
 
 module.exports = {
   generateAttrsObject
