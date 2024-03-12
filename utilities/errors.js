@@ -3,7 +3,7 @@
  * @param {any} parameterValue Parameter to test.
  * @param {string} parameterName Identifies parameter in error message.
  */
-const typeObjectError = (parameterValue, parameterName = "") => {
+const typeObjectError = (parameterValue, parameterName = "parameter") => {
   if (
     typeof parameterValue !== "object" ||
     Array.isArray(parameterValue) ||
@@ -16,7 +16,7 @@ const typeObjectError = (parameterValue, parameterName = "") => {
  * @param {any} parameterValue Parameter to test.
  * @param {string} parameterName Identifies parameter in error message.
  */
-const typeFunctionError = (parameterValue, parameterName = "") => {
+const typeFunctionError = (parameterValue, parameterName = "parameter") => {
   if(
     typeof parameterValue !== "function" &&
     parameterValue !== undefined
