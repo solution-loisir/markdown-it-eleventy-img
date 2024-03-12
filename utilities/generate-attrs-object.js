@@ -1,4 +1,4 @@
-module.exports = token => {
+const generateAttrsObject = (token) => {
   const tokenAttributes = token.attrs.reduce((acc, current) => {
     const trimmedLowerCasedKey = current[0].toLowerCase().trim();
     acc[trimmedLowerCasedKey] = current[1];
@@ -12,4 +12,8 @@ module.exports = token => {
       return this;
     }
   };
+};
+
+module.exports = {
+  generateAttrsObject
 };

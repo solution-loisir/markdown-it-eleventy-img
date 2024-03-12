@@ -1,7 +1,7 @@
 const Image = require("@11ty/eleventy-img");
 const { warnings } = require("./utilities/warnings");
 const { remove } = require("./utilities/remove-key-from");
-const generateAttrsObject = require("./utilities/generate-attrs-object");
+const { generateAttrsObject } = require("./utilities/generate-attrs-object");
 const { typeObjectError, typeFunctionError } = require("./utilities/errors");
 const { normalizingProperties } = require("./utilities/lower-case-trim-object");
 
