@@ -1,0 +1,33 @@
+{
+  "tags": {
+      "allowUnknownTags": true,
+      "dictionaries": ["jsdoc"]
+  },
+  "source": {
+      "include": ["utilities/", "index.js", "package.json", "README.md"],
+      "includePattern": ".js$",
+      "excludePattern": "(node_modules/|docs)"
+  },
+  "plugins": [
+      "plugins/markdown"
+  ],
+  "templates": {
+      "referenceTitle": "markdown-it-eleventy-img",
+      "disableSort": false,
+      "collapse": true
+  },
+  "opts": {
+      "destination": "./docs/",
+      "encoding": "utf8",
+      "private": true,
+      "recurse": true,
+      "template": "./node_modules/clean-jsdoc-theme",
+      "theme_opts": {
+        "default_theme": "dark"
+    }
+  },
+  "markdown": {
+    "hardwrap": false,
+    "idInHeadings": true
+  }
+}

@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "eslint index.js test.js utilities/*.js && ava",
-    "check-updates": "npm outdated"
+    "check-updates": "npm outdated",
+    "build-docs": "jsdoc -c jsdoc.config.json --verbose"
   },
   "engines": {
     "node": ">=18"
@@ -16,7 +17,9 @@
   "devDependencies": {
     "@11ty/eleventy": "^2.0.1",
     "ava": "^6.1.2",
+    "clean-jsdoc-theme": "^4.2.17",
     "eslint": "^8.57.0",
+    "jsdoc": "^4.0.2",
     "markdown-it": "^9.0.0",
     "markdown-it-attrs": "^4.1.6",
     "markdown-it-implicit-figures": "^0.12.0"
